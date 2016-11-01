@@ -6,6 +6,12 @@
 
     <module-name>Web</module-name>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/Web-servlet.xml</param-value>
+    </context-param>
+    <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+
     <servlet>
         <servlet-name>Web</servlet-name>
         <servlet-class>
@@ -19,10 +25,14 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <welcome-file-list>
+        <welcome-file>/WEB-INF/pages/welcome.jsp</welcome-file>
+    </welcome-file-list>
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Web</web-resource-name>
-            <url-pattern>/hello</url-pattern>
+            <url-pattern>/start</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>*</role-name>
