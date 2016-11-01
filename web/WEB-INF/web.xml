@@ -3,6 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
+    <module-name>Web</module-name>
+
     <servlet>
         <servlet-name>Web</servlet-name>
         <servlet-class>
@@ -19,7 +22,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Web</web-resource-name>
-            <url-pattern>/home</url-pattern>
+            <url-pattern>/hello</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>*</role-name>

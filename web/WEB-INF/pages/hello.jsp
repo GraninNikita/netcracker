@@ -5,11 +5,12 @@
     <title>Hello World!</title>
 </head>
 <body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<jsp:useBean id="controller" class="com.netcracker.HelloController" scope="request"/>
+<% controller.handleLogout(request); %>
+
+<%--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>--%>
 
 <button onclick="location.href = 'home'" type="button">Login</button>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<button onclick="location.href = 'hello?logout=true'" type="button">Logout</button>
 </body>
 </html>
