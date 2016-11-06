@@ -1,0 +1,6 @@
+body{
+    background: url(../img/bg.jpg) no-repeat center center scroll;
+}
+.container {
+    display: flex; /* or inline-flex */
+}

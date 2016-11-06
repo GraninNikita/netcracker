@@ -13,7 +13,7 @@
 <body>
 <h1>Logout</h1>
 <a>Вернуться на главную</a>
-<button onclick="location.href = 'start'" type="button">Главная</button>
+<button onclick="location.href = '/Web'" type="button">Главная</button>
 
 </body>
 </html>

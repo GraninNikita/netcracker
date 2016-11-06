@@ -18,6 +18,12 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>1.4.1.RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.7</version>
+        </dependency>
     </dependencies>
 
 
