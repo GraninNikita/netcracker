@@ -22,18 +22,18 @@ public class WelcomeController {
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String start() {
-        return "index";
+        return "dashboard";
     }
 
     // Post start
     @RequestMapping(value = "/start", method = RequestMethod.POST)
     public String startPost() {
-        return "index";
+        return "dashboard";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String handleLogout(HttpServletRequest req) throws ServletException {
         req.logout();
-        return "logout";
+        return "welcome";
     }
 }
