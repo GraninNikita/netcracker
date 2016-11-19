@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -55,50 +56,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-messages">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>John Smith</strong>
-                                <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                            </div>
-                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>Read All Messages</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
+                <ul class="dropdown-menu dropdown-messages"></ul>
                 <!-- /.dropdown-messages -->
             </li>
             <!-- /.dropdown -->
@@ -106,82 +64,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-tasks">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 1</strong>
-                                    <span class="pull-right text-muted">40% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                        <span class="sr-only">40% Complete (success)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 2</strong>
-                                    <span class="pull-right text-muted">20% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        <span class="sr-only">20% Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 3</strong>
-                                    <span class="pull-right text-muted">60% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                        <span class="sr-only">60% Complete (warning)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <p>
-                                    <strong>Task 4</strong>
-                                    <span class="pull-right text-muted">80% Complete</span>
-                                </p>
-                                <div class="progress progress-striped active">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Tasks</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
+                <ul class="dropdown-menu dropdown-tasks"></ul>
                 <!-- /.dropdown-tasks -->
             </li>
             <!-- /.dropdown -->
@@ -189,59 +72,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-comment fa-fw"></i> New Comment
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                <span class="pull-right text-muted small">12 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-tasks fa-fw"></i> New Task
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
+
                 <!-- /.dropdown-alerts -->
             </li>
             <!-- /.dropdown -->
@@ -279,7 +110,8 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Мои события<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Мои события<span
+                                class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="#"> Активные</a>
@@ -313,6 +145,135 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <div class="panel-body">
+                <!-- Button trigger modal -->
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    Добавить пользователя
+                </button>
+
+                <div class="panel-body">
+                    <%--Таблица с пользователями--%>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Таблица пользователей <p>${msg}</p>
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <table width="100%" class="table table-striped table-bordered table-hover"
+                                           id="dataTables-users">
+                                        <thead>
+                                        <tr>
+                                            <th>User id</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Information</th>
+                                            <th>Parent user id</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <%--<c:if test="${not empty usersList}">--%>
+                                        <c:forEach items="${usersList}" var="item">
+                                            <tr>
+                                                <td>${item.getUserId()}</td>
+                                                <td>${item.getFirstName()}</td>
+                                                <td>${item.getLastName()}</td>
+                                                <td>${item.getIfno()}</td>
+                                                <td>${item.getParentUserId()}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                        <%--</c:if>--%>
+                                    </table>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+
+                    <%--Таблица с событиями--%>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Таблица Событий <p>${msg}</p>
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <table width="100%" class="table table-striped table-bordered table-hover"
+                                           id="dataTables-meetings">
+                                        <thead>
+                                        <tr>
+                                            <th>Meeting id</th>
+                                            <th>Name</th>
+                                            <th>Date Start</th>
+                                            <th>Date End</th>
+                                            <th>Admin id</th>
+                                            <th>Place</th>
+                                            <th>Summary</th>
+                                            <th>State</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <%--<c:if test="${not empty meetingsList}">--%>
+                                        <c:forEach items="${meetingsList}" var="item">
+                                            <tr>
+                                                <td>${item.getMeetingId()}</td>
+                                                <td>${item.getName()}</td>
+                                                <td>${item.getDateStart()}</td>
+                                                <td>${item.getDateEnd()}</td>
+                                                <td>${item.getAdminId()}</td>
+                                                <td>${item.getPlace()}</td>
+                                                <td>${item.getSummary()}</td>
+                                                <td>${item.getState()}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                        <%--</c:if>--%>
+                                    </table>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <p>User id: <input type="text" name="userId" id="userId"></p>
+                                <p>First name: <input type="text" name="First_Name" id="firstName"></p>
+                                <p>Last name: <input type="text" name="Last_Name" id="lastName"></p>
+                                <p>Information: <input type="text" name="IFNO" id="info"></p>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btn-adduser">Save changes</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+            </div>
             <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
@@ -330,10 +291,61 @@
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="resources/vendor/metisMenu/metisMenu.min.js"></script>
+<!-- DataTables JavaScript -->
+<script src="resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="resources/dist/js/sb-admin-2.js"></script>
 
+<%--Ajax--%>
+<script>
+    jQuery(document).ready(
+            function ($) {
+
+                $("#btn-adduser").click(function (event) {
+                    var data = {};
+                    data["firstName"] = $('#firstName').val();
+                    data["lastName"] = $('#lastName').val();
+                    data["info"] = $('#info').val();
+                    data["userId"] = $('#userId').val();
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Web/save",
+                        dataType: 'json',
+                        data: data,
+
+                        timeout: 600000,
+                        success: function (data) {
+                            alert("Success");
+                        },
+                        error: function (e) {
+                            alert("Error");
+                            $('#userId').val('')
+                            $('#firstName').val('')
+                            $('#lastName').val('')
+                            $('#userId').val('')
+                        }
+                    });
+
+
+                });
+
+            });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables-meetings').DataTable({
+            responsive: true
+        });
+        $('#dataTables-users').DataTable({
+            responsive: true
+        });
+    });
+</script>
 </body>
 
 </html>
