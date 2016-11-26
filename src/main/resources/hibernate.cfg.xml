@@ -4,22 +4,20 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">
-            org.hibernate.dialect.OracleDialect
-        </property>
-        <property name="connection.url">jdbc:oracle:thin:@//45.55.212.30:1521/XE</property>
+        <property name="connection.url">jdbc:oracle:thin:@//127.0.0.1:15210/XE</property>
         <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
-        <property name="hibernate.connection.password">0987654321</property>
+
         <property name="connection.username">NETCRACKER</property>
+        <property name="connection.password">0987654321</property>
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
-
-        <mapping class="com.netcracker.entities.UsersEntity"/>
-        <!--<mapping class="com.netcracker.entities.ContactsEntity"/>-->
+        <mapping class="com.netcracker.entities.ContactsEntity"/>
+        <!--<mapping class="com.netcracker.entities.ContactsToMeetingEntity"/>-->
         <mapping class="com.netcracker.entities.MeetingsEntity"/>
-        <!-- DB schema will be updated if needed -->
-        <!-- <property name="hbm2ddl.auto">update</property> -->
+        <mapping class="com.netcracker.entities.UsersEntity"/>
+
+
     </session-factory>
 </hibernate-configuration>

@@ -3,18 +3,16 @@ package com.netcracker.entities;
 import javax.persistence.*;
 
 /**
- * Created by Nick on 14.11.2016.
+ * Created by Nick on 24.11.2016.
  */
 @Entity
 @Table(name = "USERS", schema = "NETCRACKER", catalog = "")
 public class UsersEntity {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private long userId;
     private String firstName;
     private String lastName;
     private String ifno;
-    private long parentUserId;
+    private Long parentUserId;
 
     @Id
     @Column(name = "USER_ID")
@@ -58,11 +56,11 @@ public class UsersEntity {
 
     @Basic
     @Column(name = "PARENT_USER_ID")
-    public long getParentUserId() {
+    public Long getParentUserId() {
         return parentUserId;
     }
 
-    public void setParentUserId(long parentUserId) {
+    public void setParentUserId(Long parentUserId) {
         this.parentUserId = parentUserId;
     }
 
@@ -74,10 +72,10 @@ public class UsersEntity {
         UsersEntity that = (UsersEntity) o;
 
         if (userId != that.userId) return false;
-        if (parentUserId != that.parentUserId) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         if (ifno != null ? !ifno.equals(that.ifno) : that.ifno != null) return false;
+        if (parentUserId != null ? !parentUserId.equals(that.parentUserId) : that.parentUserId != null) return false;
 
         return true;
     }
@@ -88,7 +86,7 @@ public class UsersEntity {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (ifno != null ? ifno.hashCode() : 0);
-        result = 31 * result + (int) (parentUserId ^ (parentUserId >>> 32));
+        result = 31 * result + (parentUserId != null ? parentUserId.hashCode() : 0);
         return result;
     }
 }

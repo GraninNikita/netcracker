@@ -30,9 +30,9 @@ public class MappingController {
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String start(ModelMap model) {
         UserController userController = new UserController();
-        MeetingController meetingController = new MeetingController();
+        MeetingsController meetingsController = new MeetingsController();
         List usersList = userController.getAll();
-        List meetingsList = meetingController.getAll();
+        List meetingsList = meetingsController.getAll();
         model.addAttribute("usersList", usersList);
         model.addAttribute("meetingsList", meetingsList);
         return "dashboard";
@@ -59,7 +59,7 @@ public class MappingController {
         users.setFirstName(firstName);
         users.setLastName(lastName);
         users.setIfno(info);
-        users.setParentUserId(0);
+        users.setParentUserId(new Long(0));
 
         session.save(users);
         session.getTransaction().commit();

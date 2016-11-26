@@ -18,7 +18,7 @@ public class UserController {
     public List<UsersEntity> getAll(){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query q = session.createQuery("from UsersEntity");
+        Query q = session.createQuery("from UsersEntity ");
         List<UsersEntity> list = q.list();
         session.close();
         return list;
