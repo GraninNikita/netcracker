@@ -15,6 +15,7 @@ public class ContactsEntity {
     private Boolean state;
     private String value;
     private List<MeetingsEntity> meetingsEntities = new ArrayList<>();
+    private UsersEntity usersEntities;
 
     @Id
     @Column(name = "CONTACT_ID")
@@ -69,6 +70,7 @@ public class ContactsEntity {
         this.meetingsEntities = meetingsEntities;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,5 +93,15 @@ public class ContactsEntity {
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
+    }
+
+
+    @ManyToOne(optional = false)
+    public UsersEntity getUsersEntities() {
+        return usersEntities;
+    }
+
+    public void setUsersEntities(UsersEntity usersEntities) {
+        this.usersEntities = usersEntities;
     }
 }

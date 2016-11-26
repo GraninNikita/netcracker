@@ -20,7 +20,7 @@ public class TestController {
 //        EmailService emailService = new EmailService();
 //        emailService.init();
         ContactsController contactsController = new ContactsController();
-        List<ContactsEntity> l = contactsController.getAll();
+        List<UsersEntity> l = contactsController.getAll();
 
     }
 }

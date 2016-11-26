@@ -2,6 +2,7 @@ package com.netcracker.controllers;
 
 import com.netcracker.entities.ContactsEntity;
 import com.netcracker.entities.MeetingsEntity;
+import com.netcracker.entities.UsersEntity;
 import com.netcracker.orm.HibernateUtil;
 import com.netcracker.services.UpcomingMeetingsJob;
 import org.hibernate.Session;
@@ -16,21 +17,21 @@ import java.util.List;
 
 public class ContactsController {
 
-    public List<ContactsEntity> getAll() {
+    public List<UsersEntity> getAll() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
 
-        List<MeetingsEntity> upComingMeetings = UpcomingMeetingsJob.getUpcomingMeetingsList();
+        Query q = session.createQuery("select usersEntities from ContactsEntity ");
 
-        Query q = session.createQuery("from ContactsEntity ");
-        List<ContactsEntity> list = q.list();
-        for (ContactsEntity contacts : list) {
-            for (MeetingsEntity m : contacts.getMeetings()) {
-                System.out.println(m.getName());
+        List<UsersEntity> usersEntity = new ArrayList<>() ;
+        usersEntity = q.list();
 
-            }
+        for (UsersEntity users: usersEntity) {
+            System.out.println(users.getFirstName());
+
         }
+
         session.close();
-        return list;
+        return usersEntity;
     }
 }

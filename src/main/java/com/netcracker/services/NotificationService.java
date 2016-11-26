@@ -1,7 +1,6 @@
 package com.netcracker.services;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 /**
  * Created by Nick on 23.11.2016.

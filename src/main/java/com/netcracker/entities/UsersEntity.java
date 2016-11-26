@@ -1,6 +1,8 @@
 package com.netcracker.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nick on 24.11.2016.
@@ -13,6 +15,7 @@ public class UsersEntity {
     private String lastName;
     private String ifno;
     private Long parentUserId;
+    private List<ContactsEntity> contactsEntities = new ArrayList<>();
 
     @Id
     @Column(name = "USER_ID")
@@ -58,6 +61,14 @@ public class UsersEntity {
     @Column(name = "PARENT_USER_ID")
     public Long getParentUserId() {
         return parentUserId;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usersEntities")
+    public List<ContactsEntity> getContactsEntities() {
+        return this.contactsEntities;
+    }
+    public void setContactsEntities(List<ContactsEntity> contactsEntities) {
+        this.contactsEntities = contactsEntities;
     }
 
     public void setParentUserId(Long parentUserId) {

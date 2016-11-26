@@ -23,7 +23,7 @@ import java.util.List;
 public class MappingController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String test(@RequestParam("name") String param, Model model) {
-        model.addAttribute("name", param);
+        model.addAttribute("nam e", param);
         return "welcome";
     }
 

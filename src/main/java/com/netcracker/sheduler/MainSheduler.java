@@ -15,7 +15,7 @@ import static org.quartz.JobBuilder.*;
 /**
  * Created by Nick on 22.11.2016.
  */
-@Bean
+
 public class MainSheduler {
     public static void main(String[] args) {
 
