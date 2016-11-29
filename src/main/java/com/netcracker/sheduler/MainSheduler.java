@@ -1,59 +1,64 @@
 package com.netcracker.sheduler;
 
-import com.netcracker.services.*;
+import com.netcracker.services.EmailService;
+import com.netcracker.services.UpcomingMeetingsJob;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.springframework.context.annotation.Bean;
 
-import java.util.Date;
-
-import static org.quartz.DateBuilder.evenMinuteDate;
+import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
-import static org.quartz.JobBuilder.*;
 
 /**
  * Created by Nick on 22.11.2016.
  */
 
-public class MainSheduler {
+public class MainSheduler  {
     public static void main(String[] args) {
 
         try {
 
             SchedulerFactory sf = new StdSchedulerFactory();
             Scheduler sched = sf.getScheduler();
-
             sched.start();
 
-            // define the job and tie it to our HelloJob class
-            JobDetail job = newJob(UpcomingMeetingsJob.class)
-                    .withIdentity("job1", "group1")
+            // define job to add upcoming meetings
+            JobDetail job1 = newJob(UpcomingMeetingsJob.class)
+                    .withIdentity("upcoming", "group1")
                     .build();
-            // compute a time that is on the next round minute
-            Date runTime = evenMinuteDate(new Date());
 
-            // Trigger the job to run on the next round minute
-            Trigger trigger = newTrigger()
+            // job for notificate
+            JobDetail job2 = newJob(EmailService.class)
+                    .withIdentity("notificate", "group2")
+                    .build();
+
+            Trigger trigger1 = newTrigger()
                     .withIdentity("trigger1", "group1")
                     .startNow()
                     .withSchedule(simpleSchedule()
                             .withIntervalInMinutes(1)
                             .repeatForever())
                     .build();
-            // Tell quartz to schedule the job using our trigger
-            sched.scheduleJob(job, trigger);
 
-//            Thread.sleep(60000);
-//            sched.shutdown(false);
+            Trigger trigger2 = newTrigger()
+                    .withIdentity("trigger2", "group2")
+                    .startNow()
+                    .withSchedule(simpleSchedule()
+                            .withIntervalInSeconds(10)
+                            .repeatForever())
+                    .build();
+
+
+            // Tell quartz to schedule the job using our trigger
+            sched.scheduleJob(job1, trigger1);
+            sched.scheduleJob(job2, trigger2);
 
 
         } catch (SchedulerException se) {
             se.printStackTrace();
         }
-//        catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
     }
+
+
 }
 

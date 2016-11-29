@@ -2,15 +2,18 @@ package com.netcracker.services;
 
 import com.netcracker.controllers.MeetingsController;
 import com.netcracker.entities.MeetingsEntity;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import javax.mail.MessagingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by Nick on 22.11.2016.
@@ -18,18 +21,18 @@ import java.util.List;
 public class UpcomingMeetingsJob implements Job {
 
 
+    final static Logger logger = Logger.getLogger(UpcomingMeetingsJob.class);
+
     private final int accuracy = 30;
     private static List<MeetingsEntity> meetingsList;
-    private static List<MeetingsEntity> upcomingMeetingsList;  // предстоящие события
-    private DateTime nowTime;
+    private static Stack<MeetingsEntity> upcomingMeetingsList = new Stack<>();  // предстоящие события
     public final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0");
 
-
-    public static List<MeetingsEntity> getUpcomingMeetingsList() {
+    public static Stack<MeetingsEntity> getUpcomingMeetingsList() {
         return upcomingMeetingsList;
     }
 
-    public static void setUpcomingMeetingsList(List<MeetingsEntity> upcomingMeetingsList) {
+    public static void setUpcomingMeetingsList(Stack<MeetingsEntity> upcomingMeetingsList) {
         UpcomingMeetingsJob.upcomingMeetingsList = upcomingMeetingsList;
     }
 
@@ -37,32 +40,35 @@ public class UpcomingMeetingsJob implements Job {
     * @param accuracy it's accuracy in minutes
     * */
     public boolean isTimeToNotificate(int accuracy) {
-        setUpcomingMeetingsList(new ArrayList<MeetingsEntity>());
+        boolean isHaveUpcomingMeetings = false;
+        upcomingMeetingsList = new Stack<>();
+        meetingsList = MeetingsController.getAll();
 
-        nowTime = new DateTime(); // current time
-        MeetingsController meetingsController = new MeetingsController();
-        meetingsList = meetingsController.getAll();
         for (MeetingsEntity meeting : meetingsList) {
+            DateTime nowTime = new DateTime(); // current time
             DateTime meetingDateStart = new DateTime(meeting.getDateStart());
-            if (meetingDateStart.getYear() == nowTime.getYear()
+
+            if (meeting.getState() && meetingDateStart.getYear() == nowTime.getYear()
                     && meetingDateStart.getMonthOfYear() == nowTime.getMonthOfYear()
                     && meetingDateStart.getDayOfMonth() == nowTime.getDayOfMonth()
                     && meetingDateStart.getHourOfDay() == nowTime.getHourOfDay()
                     && (meetingDateStart.getMinuteOfHour() - nowTime.getMinuteOfHour() < this.accuracy)) {
 
-                getUpcomingMeetingsList().add(meeting);
-                System.out.println("It's time to notificate");
-                System.out.println(meetingDateStart.toString("dd/MM/YYYY HH:mm:ss"));
+                getUpcomingMeetingsList().push(meeting);
+                logger.error("Pushed meeting to stack: " + meeting.getMeetingId() + " " + meeting.getName());
+                isHaveUpcomingMeetings = true;
             }
 
         }
-        return false;
+        return isHaveUpcomingMeetings;
     }
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
+        logger.warn("EXECUTE");
         if (isTimeToNotificate(30)) {
-            System.out.println("It's time to NOTOFICATE");
+            logger.info("System has upcoming meetings: " + upcomingMeetingsList.size());
         }
 
     }
 }
+

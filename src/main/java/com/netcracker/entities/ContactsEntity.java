@@ -2,7 +2,9 @@ package com.netcracker.entities;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Nick on 24.11.2016.
@@ -14,8 +16,7 @@ public class ContactsEntity {
     private String type;
     private Boolean state;
     private String value;
-    private List<MeetingsEntity> meetingsEntities = new ArrayList<>();
-    private UsersEntity usersEntities;
+//    private List<MeetingsEntity> meetingsEntities = new ArrayList<>();
 
     @Id
     @Column(name = "CONTACT_ID")
@@ -57,18 +58,14 @@ public class ContactsEntity {
         this.value = value;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "contacts_to_meeting", catalog = "", joinColumns = {
-            @JoinColumn(name = "contact_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "meeting_id",
-                    nullable = false, updatable = false)})
-    public List<MeetingsEntity> getMeetings() {
-        return this.meetingsEntities;
-    }
-
-    public void setMeetings(List<MeetingsEntity> meetingsEntities) {
-        this.meetingsEntities = meetingsEntities;
-    }
+//    @ManyToMany(fetch=FetchType.LAZY, mappedBy = "contactsEntities")
+//    public List<MeetingsEntity> getMeetings() {
+//        return this.meetingsEntities;
+//    }
+//
+//    public void setMeetings(List<MeetingsEntity> meetingsEntities) {
+//        this.meetingsEntities = meetingsEntities;
+//    }
 
 
     @Override
@@ -95,13 +92,4 @@ public class ContactsEntity {
         return result;
     }
 
-
-    @ManyToOne(optional = false)
-    public UsersEntity getUsersEntities() {
-        return usersEntities;
-    }
-
-    public void setUsersEntities(UsersEntity usersEntities) {
-        this.usersEntities = usersEntities;
-    }
 }

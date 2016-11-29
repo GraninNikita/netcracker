@@ -17,10 +17,13 @@ import java.util.List;
 public class TestController {
 
     public static void main(String[] args) throws MessagingException {
-//        EmailService emailService = new EmailService();
-//        emailService.init();
-        ContactsController contactsController = new ContactsController();
-        List<UsersEntity> l = contactsController.getAll();
+//        MeetingsController meetingsController = new MeetingsController();
+//        List<ContactsEntity> list = meetingsController.getContactsByMeetingId(1);
+//        for (ContactsEntity contact : list
+//                ) {
+//            System.out.println(contact.getValue());
+//
+//        }
 
     }
 }

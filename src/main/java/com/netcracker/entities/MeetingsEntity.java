@@ -1,22 +1,23 @@
 package com.netcracker.entities;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.*;
 
 /**
- * Created by Nick on 24.11.2016.
+ * Created by Nick on 27.11.2016.
  */
 @Entity
 @Table(name = "MEETINGS", schema = "NETCRACKER", catalog = "")
 public class MeetingsEntity {
     private long meetingId;
     private String name;
-    private Time dateStart;
-    private Time dateEnd;
+    private Date dateStart;
+    private Date dateEnd;
     private Long adminId;
     private String place;
     private String summary;
     private Boolean state;
+    private List<ContactsEntity> contactsEntities = new ArrayList<>();
 
     @Id
     @Column(name = "MEETING_ID")
@@ -40,21 +41,21 @@ public class MeetingsEntity {
 
     @Basic
     @Column(name = "DATE_START")
-    public Time getDateStart() {
+    public Date getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Time dateStart) {
+    public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
     }
 
     @Basic
     @Column(name = "DATE_END")
-    public Time getDateEnd() {
+    public Date getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Time dateEnd) {
+    public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -96,6 +97,20 @@ public class MeetingsEntity {
 
     public void setState(Boolean state) {
         this.state = state;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "contacts_to_meeting", catalog = "", joinColumns = {
+            @JoinColumn(name = "meeting_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "contact_id",
+                    nullable = false, updatable = false)})
+    public List<ContactsEntity> getContacts() {
+
+        return this.contactsEntities;
+    }
+
+    public void setContacts(List<ContactsEntity> contactsEntities) {
+        this.contactsEntities = contactsEntities;
     }
 
     @Override
