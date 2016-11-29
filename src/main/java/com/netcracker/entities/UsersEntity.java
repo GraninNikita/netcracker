@@ -13,7 +13,7 @@ public class UsersEntity {
     private long userId;
     private String firstName;
     private String lastName;
-    private String ifno;
+    private String info;
     private Long parentUserId;
     private List<ContactsEntity> contactsEntities = new ArrayList<>();
 
@@ -48,13 +48,13 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "IFNO")
-    public String getIfno() {
-        return ifno;
+    @Column(name = "INFO")
+    public String getInfo() {
+        return info;
     }
 
-    public void setIfno(String ifno) {
-        this.ifno = ifno;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     @Basic
@@ -85,7 +85,7 @@ public class UsersEntity {
         if (userId != that.userId) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (ifno != null ? !ifno.equals(that.ifno) : that.ifno != null) return false;
+        if (info != null ? !info.equals(that.info) : that.info != null) return false;
         if (parentUserId != null ? !parentUserId.equals(that.parentUserId) : that.parentUserId != null) return false;
 
         return true;
@@ -96,7 +96,7 @@ public class UsersEntity {
         int result = (int) (userId ^ (userId >>> 32));
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (ifno != null ? ifno.hashCode() : 0);
+        result = 31 * result + (info != null ? info.hashCode() : 0);
         result = 31 * result + (parentUserId != null ? parentUserId.hashCode() : 0);
         return result;
     }

@@ -148,7 +148,7 @@
             <div class="panel-body">
                 <!-- Button trigger modal -->
                 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                    Добавить пользователя
+                    Добавить событие
                 </button>
 
                 <div class="panel-body">
@@ -179,7 +179,7 @@
                                                 <td>${item.getUserId()}</td>
                                                 <td>${item.getFirstName()}</td>
                                                 <td>${item.getLastName()}</td>
-                                                <td>${item.getIfno()}</td>
+                                                <td>${item.getInfo()}</td>
                                                 <td>${item.getParentUserId()}</td>
                                             </tr>
                                         </c:forEach>
@@ -249,18 +249,37 @@
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content" style="width: 350px;">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                <h4 class="modal-title" id="myModalLabel">Добавить событие</h4>
                             </div>
                             <div class="modal-body">
-
-                                <p>User id: <input type="text" name="userId" id="userId"></p>
-                                <p>First name: <input type="text" name="First_Name" id="firstName"></p>
-                                <p>Last name: <input type="text" name="Last_Name" id="lastName"></p>
-                                <p>Information: <input type="text" name="IFNO" id="info"></p>
+                                <div style="margin-bottom: 10px;">
+                                    <p>Название:</p>
+                                    <input type="text" name="event" id="nameEvent" style="width: 320px;">
+                                </div>
+                                <form name="start" style="margin-bottom: 10px;">
+                                    <p>Время начала:</p>
+                                    <input type="datetime-local" name="startTime" style="width: 320px;">
+                                </form>
+                                <form name="end" style="margin-bottom: 10px;">
+                                    <p>Время окончания:</p>
+                                    <input type="datetime-local" name="endTime" style="width: 320px;">
+                                </form>
+                                <div style="margin-bottom: 10px;">
+                                    <p>Описание: </p>
+                                    <input type="text" name="summary" id="summary" style="width: 320px;">
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <p>Место: </p>
+                                    <input type="text" name="place" id="place" style="width: 320px;">
+                                </div>
+                                <div>
+                                    <p>Оповестить за (мин): </p>
+                                    <input type="text" value="30" name="notification" id="notification" style="width: 320px;">
+                                </div>
 
                             </div>
                             <div class="modal-footer">
@@ -303,21 +322,17 @@
 <script>
     jQuery(document).ready(
             function ($) {
-
                 $("#btn-adduser").click(function (event) {
                     var data = {};
                     data["firstName"] = $('#firstName').val();
                     data["lastName"] = $('#lastName').val();
                     data["info"] = $('#info').val();
                     data["userId"] = $('#userId').val();
-
-
                     $.ajax({
                         type: "POST",
                         url: "/Web/save",
                         dataType: 'json',
                         data: data,
-
                         timeout: 600000,
                         success: function (data) {
                             alert("Success");
@@ -330,9 +345,7 @@
                             $('#userId').val('')
                         }
                     });
-
                 });
-
             });
 </script>
 <script>

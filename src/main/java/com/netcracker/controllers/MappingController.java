@@ -58,7 +58,7 @@ public class MappingController {
         users.setUserId(userId);
         users.setFirstName(firstName);
         users.setLastName(lastName);
-        users.setIfno(info);
+        users.setInfo(info);
         users.setParentUserId(new Long(0));
 
         session.save(users);
