@@ -47,7 +47,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project</a>
+            <a class="navbar-brand" href="#">Notification System</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -328,7 +328,6 @@
                     data["endTime"] = $('#endTime').val();
                     data["summary"] = $('#summary').val();
                     data["place"] = $('#place').val();
-                    alert(data["place"]);
                     $.ajax({
                         type: "POST",
                         url: "/Web/save",
@@ -336,10 +335,10 @@
                         data: data,
                         timeout: 600000,
                         success: function (data) {
-                            alert("Success");
+                            window.location.reload();
                         },
                         error: function (e) {
-                            alert("Error");
+                            window.location.reload();
                             $('#nameEvent').val('')
                             $('#startTime').val('')
                             $('#endTime').val('')

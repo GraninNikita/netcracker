@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class MappingController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public String add(
-            @RequestParam String eventName,
+            @RequestParam String nameEvent,
             @RequestParam String startTime,
             @RequestParam String endTime,
             @RequestParam String summary,
@@ -50,20 +51,44 @@ public class MappingController {
     ) {
         Logger logger = Logger.getLogger(MappingController.class);
         logger.info("Start adding");
-        logger.info("event name: " + eventName);
+        logger.info("event name: " + nameEvent);
         logger.info("start time: " + startTime);
         logger.info("end time: " + endTime);
         logger.info("summary: " + summary);
         logger.info("place: " + place);
-        System.out.println("!!!!!!!!!!!!!!!!" + eventName);
-        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        
+        int startYear = Integer.parseInt(startTime.substring(0,4));
+        int startMonth = Integer.parseInt(startTime.substring(5,7));
+        int startDay = Integer.parseInt(startTime.substring(8,10));
+        int startHour = Integer.parseInt(startTime.substring(11,13));
+        int startMinute = Integer.parseInt(startTime.substring(14,16));
 
-        /*session.beginTransaction();
+        Date startDate = new Date(startYear,startMonth,startDay,startHour,startMinute);
+
+        int endYear = Integer.parseInt(endTime.substring(0,4));
+        int endMonth = Integer.parseInt(endTime.substring(5,7));
+        int endDay = Integer.parseInt(endTime.substring(8,10));
+        int endHour = Integer.parseInt(endTime.substring(11,13));
+        int endMinute = Integer.parseInt(endTime.substring(14,16));
+
+        Date endDate = new Date(endYear,endMonth,endDay,endHour,endMinute);
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+        session.beginTransaction();
         MeetingsEntity meeting = new MeetingsEntity();
-        meeting.setName(eventName);
-        meeting.setDateStart(startTime);
+        meeting.setName(nameEvent);
+        meeting.setDateStart(startDate);
+        meeting.setDateEnd(endDate);
+        meeting.setSummary(summary);
+        meeting.setPlace(place);
+        //we don't know user ID
+        meeting.setAdminId(1L);
+        meeting.setState(true);
 
-        UsersEntity users = new UsersEntity();
+        session.save(meeting);
+        session.getTransaction().commit();
+        /*UsersEntity users = new UsersEntity();
         users.setUserId(userId);
         users.setFirstName(firstName);
         users.setLastName(lastName);
