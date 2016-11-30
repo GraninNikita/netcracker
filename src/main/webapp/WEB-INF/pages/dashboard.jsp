@@ -262,11 +262,11 @@
                                 </div>
                                 <form name="start" style="margin-bottom: 10px;">
                                     <p>Время начала:</p>
-                                    <input type="datetime-local" name="startTime" style="width: 320px;">
+                                    <input type="datetime-local" name="startTime" id="startTime" style="width: 320px;">
                                 </form>
                                 <form name="end" style="margin-bottom: 10px;">
                                     <p>Время окончания:</p>
-                                    <input type="datetime-local" name="endTime" style="width: 320px;">
+                                    <input type="datetime-local" name="endTime" id="endTime" style="width: 320px;">
                                 </form>
                                 <div style="margin-bottom: 10px;">
                                     <p>Описание: </p>
@@ -278,7 +278,7 @@
                                 </div>
                                 <div>
                                     <p>Оповестить за (мин): </p>
-                                    <input type="text" value="30" name="notification" id="notification" style="width: 320px;">
+                                    <input type="text" value="30" name="notificationTime" id="notificationTime" style="width: 320px;">
                                 </div>
 
                             </div>
@@ -317,9 +317,40 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="resources/dist/js/sb-admin-2.js"></script>
-
 <%--Ajax--%>
 <script>
+    jQuery(document).ready(
+            function ($) {
+                $("#btn-adduser").click(function (event) {
+                    var data = {};
+                    data["nameEvent"] = $('#nameEvent').val();
+                    data["startTime"] = $('#startTime').val();
+                    data["endTime"] = $('#endTime').val();
+                    data["summary"] = $('#summary').val();
+                    data["place"] = $('#place').val();
+                    alert(data["place"]);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Web/save",
+                        dataType: 'json',
+                        data: data,
+                        timeout: 600000,
+                        success: function (data) {
+                            alert("Success");
+                        },
+                        error: function (e) {
+                            alert("Error");
+                            $('#nameEvent').val('')
+                            $('#startTime').val('')
+                            $('#endTime').val('')
+                            $('#summary').val('')
+                            $('#place').val('')
+                        }
+                    });
+                });
+            });
+</script>
+<%--<script>
     jQuery(document).ready(
             function ($) {
                 $("#btn-adduser").click(function (event) {
@@ -347,7 +378,7 @@
                     });
                 });
             });
-</script>
+</script>--%>
 <script>
     $(document).ready(function () {
         $('#dataTables-meetings').DataTable({

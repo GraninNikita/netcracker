@@ -1,5 +1,6 @@
 package com.netcracker.controllers;
 
+import com.netcracker.entities.MeetingsEntity;
 import com.netcracker.entities.UsersEntity;
 import com.netcracker.orm.HibernateUtil;
 import org.apache.log4j.Logger;
@@ -41,6 +42,42 @@ public class MappingController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public String add(
+            @RequestParam String eventName,
+            @RequestParam String startTime,
+            @RequestParam String endTime,
+            @RequestParam String summary,
+            @RequestParam String place
+    ) {
+        Logger logger = Logger.getLogger(MappingController.class);
+        logger.info("Start adding");
+        logger.info("event name: " + eventName);
+        logger.info("start time: " + startTime);
+        logger.info("end time: " + endTime);
+        logger.info("summary: " + summary);
+        logger.info("place: " + place);
+        System.out.println("!!!!!!!!!!!!!!!!" + eventName);
+        //Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+        /*session.beginTransaction();
+        MeetingsEntity meeting = new MeetingsEntity();
+        meeting.setName(eventName);
+        meeting.setDateStart(startTime);
+
+        UsersEntity users = new UsersEntity();
+        users.setUserId(userId);
+        users.setFirstName(firstName);
+        users.setLastName(lastName);
+        users.setInfo(info);
+        users.setParentUserId(new Long(0));
+
+        session.save(users);
+        session.getTransaction().commit();*/
+        return "dashboard";
+    }
+
+/*    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @ResponseBody
+    public String add(
             @RequestParam String firstName,
             @RequestParam String lastName,
             @RequestParam String info,
@@ -64,7 +101,7 @@ public class MappingController {
         session.save(users);
         session.getTransaction().commit();
         return "dashboard";
-    }
+    }*/
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String handleLogout(HttpServletRequest req) throws ServletException {
