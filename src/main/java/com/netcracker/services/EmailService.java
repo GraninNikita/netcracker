@@ -14,6 +14,7 @@ import com.sun.mail.smtp.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -98,18 +99,18 @@ public class EmailService implements NotificationService, Job {
             DateTime nowTime = new DateTime(); // current time
             DateTime meetingDateStart = new DateTime(firstMeeting.getDateStart());
             logger.info("Разница: " + (meetingDateStart.getMinuteOfDay() - nowTime.getMinuteOfDay()));
-            if (firstMeeting.getState() && (meetingDateStart.getMinuteOfDay() - nowTime.getMinuteOfDay() <= 1)) {
+            if (firstMeeting.getState() && (Minutes.minutesBetween(meetingDateStart, nowTime).getMinutes() <= 10)) {
                 MeetingsEntity meetingToNotificate = UpcomingMeetingsJob.getUpcomingMeetingsList().pop();
                 List<ContactsEntity> contactsToNotificate = meetingToNotificate.getContacts();
                 Hibernate.initialize(contactsToNotificate);
 
                 for (ContactsEntity contact : contactsToNotificate) {
-                    try {
-                        logger.info("try to notificate in email Service");
-                        notificate(contact, meetingToNotificate, "Test subject");
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        logger.info("try to notificate in email Service");
+//                        notificate(contact, meetingToNotificate, "Test subject");
+//                    } catch (MessagingException e) {
+//                        e.printStackTrace();
+//                    }
                     logger.info("Message was sent to " + contact.getValue());
                 }
                 logger.error("CHANGED STATE OF MEETING");

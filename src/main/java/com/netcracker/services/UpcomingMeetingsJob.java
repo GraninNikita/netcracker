@@ -4,6 +4,7 @@ import com.netcracker.controllers.MeetingsController;
 import com.netcracker.entities.MeetingsEntity;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -47,13 +48,7 @@ public class UpcomingMeetingsJob implements Job {
         for (MeetingsEntity meeting : meetingsList) {
             DateTime nowTime = new DateTime(); // current time
             DateTime meetingDateStart = new DateTime(meeting.getDateStart());
-
-            if (meeting.getState() && meetingDateStart.getYear() == nowTime.getYear()
-                    && meetingDateStart.getMonthOfYear() == nowTime.getMonthOfYear()
-                    && meetingDateStart.getDayOfMonth() == nowTime.getDayOfMonth()
-                    && meetingDateStart.getHourOfDay() == nowTime.getHourOfDay()
-                    && (meetingDateStart.getMinuteOfHour() - nowTime.getMinuteOfHour() < this.accuracy)) {
-
+            if (meeting.getState() && (Minutes.minutesBetween(meetingDateStart, nowTime).getMinutes() <= 30)) {
                 getUpcomingMeetingsList().push(meeting);
                 logger.error("Pushed meeting to stack: " + meeting.getMeetingId() + " " + meeting.getName());
                 isHaveUpcomingMeetings = true;
