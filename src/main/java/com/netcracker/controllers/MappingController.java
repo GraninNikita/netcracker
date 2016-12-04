@@ -5,6 +5,7 @@ import com.netcracker.entities.UsersEntity;
 import com.netcracker.orm.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -56,7 +57,7 @@ public class MappingController {
         logger.info("end time: " + endTime);
         logger.info("summary: " + summary);
         logger.info("place: " + place);
-        
+
         int startYear = Integer.parseInt(startTime.substring(0,4));
         int startMonth = Integer.parseInt(startTime.substring(5,7));
         int startDay = Integer.parseInt(startTime.substring(8,10));
@@ -88,15 +89,6 @@ public class MappingController {
 
         session.save(meeting);
         session.getTransaction().commit();
-        /*UsersEntity users = new UsersEntity();
-        users.setUserId(userId);
-        users.setFirstName(firstName);
-        users.setLastName(lastName);
-        users.setInfo(info);
-        users.setParentUserId(new Long(0));
-
-        session.save(users);
-        session.getTransaction().commit();*/
         return "dashboard";
     }
 

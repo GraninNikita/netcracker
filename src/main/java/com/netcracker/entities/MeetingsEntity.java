@@ -20,6 +20,8 @@ public class MeetingsEntity {
     private Boolean state;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEETING_GEN")
+    @SequenceGenerator(name = "MEETING_GEN", sequenceName = "MEETINGS_SEQ")
     @Column(name = "MEETING_ID")
     public long getMeetingId() {
         return meetingId;
