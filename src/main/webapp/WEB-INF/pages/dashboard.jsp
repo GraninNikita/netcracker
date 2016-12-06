@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Личный кабинет пользователя</title>
+    <title>Личный кабинет пользователя ${user} </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -179,7 +179,7 @@
                                                 <td>${item.getUserId()}</td>
                                                 <td>${item.getFirstName()}</td>
                                                 <td>${item.getLastName()}</td>
-                                                <td>${item.getIfno()}</td>
+                                                <td>${item.getInfo()}</td>
                                                 <td>${item.getParentUserId()}</td>
                                             </tr>
                                         </c:forEach>
@@ -260,7 +260,7 @@
                                 <p>User id: <input type="text" name="userId" id="userId"></p>
                                 <p>First name: <input type="text" name="First_Name" id="firstName"></p>
                                 <p>Last name: <input type="text" name="Last_Name" id="lastName"></p>
-                                <p>Information: <input type="text" name="IFNO" id="info"></p>
+                                <p>Information: <input type="text" name="INFO" id="info"></p>
 
                             </div>
                             <div class="modal-footer">

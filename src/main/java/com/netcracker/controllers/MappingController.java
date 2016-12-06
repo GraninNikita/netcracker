@@ -4,6 +4,7 @@ import com.netcracker.entities.UsersEntity;
 import com.netcracker.orm.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.keycloak.KeycloakPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -28,13 +29,17 @@ public class MappingController {
     }
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
-    public String start(ModelMap model) {
+    public String start(ModelMap model, HttpServletRequest request) {
         UserController userController = new UserController();
         MeetingsController meetingsController = new MeetingsController();
-        List usersList = userController.getAll();
-        List meetingsList = meetingsController.getAll();
-        model.addAttribute("usersList", usersList);
-        model.addAttribute("meetingsList", meetingsList);
+//        List usersList = userController.getAll();
+//        List meetingsList = meetingsController.getAll();
+//        model.addAttribute("usersList", usersList);
+//        model.addAttribute("meetingsList", meetingsList);
+        Logger logger = Logger.getRootLogger();
+        logger.warn("its message in file");
+        model.addAttribute("user", ((KeycloakPrincipal) request.getUserPrincipal())
+                .getKeycloakSecurityContext().getToken().getName());
         return "dashboard";
     }
 
@@ -58,7 +63,7 @@ public class MappingController {
         users.setUserId(userId);
         users.setFirstName(firstName);
         users.setLastName(lastName);
-        users.setIfno(info);
+        users.setInfo(info);
         users.setParentUserId(new Long(0));
 
         session.save(users);

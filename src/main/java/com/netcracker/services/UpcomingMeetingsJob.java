@@ -8,6 +8,7 @@ import org.joda.time.Minutes;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import java.text.DateFormat;
@@ -19,6 +20,7 @@ import java.util.Stack;
 /**
  * Created by Nick on 22.11.2016.
  */
+@Component()
 public class UpcomingMeetingsJob implements Job {
 
 
@@ -48,18 +50,19 @@ public class UpcomingMeetingsJob implements Job {
         for (MeetingsEntity meeting : meetingsList) {
             DateTime nowTime = new DateTime(); // current time
             DateTime meetingDateStart = new DateTime(meeting.getDateStart());
+            // ЗДЕСЬ ДОБАВИТЬ ВМЕСТО ХАРДКОДА 30 ПОЛЕ ИЗ БД, КОТОРОЕ ОБОЗНАЧАЕТ ВРЕМЯ ОПОВЕЩЕНИЯ
             if (meeting.getState() && (Minutes.minutesBetween(meetingDateStart, nowTime).getMinutes() <= 30)) {
                 getUpcomingMeetingsList().push(meeting);
                 logger.error("Pushed meeting to stack: " + meeting.getMeetingId() + " " + meeting.getName());
                 isHaveUpcomingMeetings = true;
             }
-
         }
         return isHaveUpcomingMeetings;
     }
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        logger.warn("EXECUTE");
+//        Logger logger = Logger.getRootLogger();
+//        logger.warn("Execution of upcoming");
         if (isTimeToNotificate(30)) {
             logger.info("System has upcoming meetings: " + upcomingMeetingsList.size());
         }

@@ -3,18 +3,18 @@ package com.netcracker.controllers;
 import com.netcracker.entities.ContactsEntity;
 import com.netcracker.entities.MeetingsEntity;
 import com.netcracker.orm.HibernateUtil;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Nick on 16.11.2016.
  */
 public class MeetingsController {
 
+    EntityManager em;
     /*
     * Getting list of meetings order by date start asc
     * */
