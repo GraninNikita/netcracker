@@ -3,6 +3,10 @@ package com.netcracker.entities;
 import javax.persistence.*;
 import java.util.*;
 
+import java.sql.Time;
+import java.util.Date;
+
+
 /**
  * Created by Nick on 27.11.2016.
  */
@@ -20,6 +24,8 @@ public class MeetingsEntity {
     private List<ContactsEntity> contactsEntities = new ArrayList<>();
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEETING_GEN")
+    @SequenceGenerator(name = "MEETING_GEN", sequenceName = "MEETINGS_SEQ")
     @Column(name = "MEETING_ID")
     public long getMeetingId() {
         return meetingId;

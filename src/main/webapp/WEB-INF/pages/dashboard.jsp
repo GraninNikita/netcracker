@@ -47,7 +47,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project</a>
+            <a class="navbar-brand" href="#">Notification System</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -148,7 +148,7 @@
             <div class="panel-body">
                 <!-- Button trigger modal -->
                 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                    Добавить пользователя
+                    Добавить событие
                 </button>
 
                 <div class="panel-body">
@@ -249,18 +249,37 @@
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content" style="width: 350px;">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                <h4 class="modal-title" id="myModalLabel">Добавить событие</h4>
                             </div>
                             <div class="modal-body">
-
-                                <p>User id: <input type="text" name="userId" id="userId"></p>
-                                <p>First name: <input type="text" name="First_Name" id="firstName"></p>
-                                <p>Last name: <input type="text" name="Last_Name" id="lastName"></p>
-                                <p>Information: <input type="text" name="INFO" id="info"></p>
+                                <div style="margin-bottom: 10px;">
+                                    <p>Название:</p>
+                                    <input type="text" name="event" id="nameEvent" style="width: 320px;">
+                                </div>
+                                <form name="start" style="margin-bottom: 10px;">
+                                    <p>Время начала:</p>
+                                    <input type="datetime-local" name="startTime" id="startTime" style="width: 320px;">
+                                </form>
+                                <form name="end" style="margin-bottom: 10px;">
+                                    <p>Время окончания:</p>
+                                    <input type="datetime-local" name="endTime" id="endTime" style="width: 320px;">
+                                </form>
+                                <div style="margin-bottom: 10px;">
+                                    <p>Описание: </p>
+                                    <input type="text" name="summary" id="summary" style="width: 320px;">
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <p>Место: </p>
+                                    <input type="text" name="place" id="place" style="width: 320px;">
+                                </div>
+                                <div>
+                                    <p>Оповестить за (мин): </p>
+                                    <input type="text" value="30" name="notificationTime" id="notificationTime" style="width: 320px;">
+                                </div>
 
                             </div>
                             <div class="modal-footer">
@@ -298,26 +317,52 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="resources/dist/js/sb-admin-2.js"></script>
-
 <%--Ajax--%>
 <script>
     jQuery(document).ready(
             function ($) {
-
+                $("#btn-adduser").click(function (event) {
+                    var data = {};
+                    data["nameEvent"] = $('#nameEvent').val();
+                    data["startTime"] = $('#startTime').val();
+                    data["endTime"] = $('#endTime').val();
+                    data["summary"] = $('#summary').val();
+                    data["place"] = $('#place').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Web/save",
+                        dataType: 'json',
+                        data: data,
+                        timeout: 600000,
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (e) {
+                            window.location.reload();
+                            $('#nameEvent').val('')
+                            $('#startTime').val('')
+                            $('#endTime').val('')
+                            $('#summary').val('')
+                            $('#place').val('')
+                        }
+                    });
+                });
+            });
+</script>
+<%--<script>
+    jQuery(document).ready(
+            function ($) {
                 $("#btn-adduser").click(function (event) {
                     var data = {};
                     data["firstName"] = $('#firstName').val();
                     data["lastName"] = $('#lastName').val();
                     data["info"] = $('#info').val();
                     data["userId"] = $('#userId').val();
-
-
                     $.ajax({
                         type: "POST",
                         url: "/Web/save",
                         dataType: 'json',
                         data: data,
-
                         timeout: 600000,
                         success: function (data) {
                             alert("Success");
@@ -330,11 +375,9 @@
                             $('#userId').val('')
                         }
                     });
-
                 });
-
             });
-</script>
+</script>--%>
 <script>
     $(document).ready(function () {
         $('#dataTables-meetings').DataTable({
