@@ -1,5 +1,7 @@
 package com.netcracker.entities;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -21,6 +23,7 @@ public class MeetingsEntity {
     private String place;
     private String summary;
     private Boolean state;
+    private Integer notificationTime;
     private List<ContactsEntity> contactsEntities = new ArrayList<>();
 
     @Id
@@ -105,6 +108,16 @@ public class MeetingsEntity {
         this.state = state;
     }
 
+    @Basic
+    @Column(name = "NOTIFICATION_TIME")
+    public Integer getNotificationTime() {
+        return notificationTime;
+    }
+
+    public void setNotificationTime(Integer notificationTime) {
+        this.notificationTime = notificationTime;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "contacts_to_meeting", catalog = "", joinColumns = {
             @JoinColumn(name = "meeting_id", nullable = false, updatable = false)},
@@ -134,6 +147,7 @@ public class MeetingsEntity {
         if (place != null ? !place.equals(that.place) : that.place != null) return false;
         if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (notificationTime != null ? !notificationTime.equals(that.notificationTime) : that.notificationTime != null) return false;
 
         return true;
     }
@@ -148,6 +162,7 @@ public class MeetingsEntity {
         result = 31 * result + (place != null ? place.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (notificationTime != null ? notificationTime.hashCode() : 0);
         return result;
     }
 }

@@ -117,13 +117,13 @@
                                 <a href="#"> Активные</a>
                             </li>
                             <li>
-                                <a href="#"> Ожидают подтверждения</a>
+                                <a href="#"> Прошедшие </a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-table fa-fw"></i> Пункт меню</a>
+                        <a href="#"><i class="fa fa-table fa-fw"></i> Календарь</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-edit fa-fw"></i> Пункт меню</a>
@@ -328,6 +328,7 @@
                     data["endTime"] = $('#endTime').val();
                     data["summary"] = $('#summary').val();
                     data["place"] = $('#place').val();
+                    data["notificationTime"] = $('#notificationTime').val();
                     $.ajax({
                         type: "POST",
                         url: "/Web/save",
@@ -344,6 +345,7 @@
                             $('#endTime').val('')
                             $('#summary').val('')
                             $('#place').val('')
+                            $('#notificationTime').val('');
                         }
                     });
                 });

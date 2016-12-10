@@ -5,11 +5,7 @@ import com.netcracker.entities.UsersEntity;
 import com.netcracker.orm.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
-
 import org.keycloak.KeycloakPrincipal;
-
-import org.joda.time.DateTime;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -30,7 +26,7 @@ import java.util.List;
 public class MappingController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String test(@RequestParam("name") String param, Model model) {
-        model.addAttribute("nam e", param);
+        model.addAttribute("name", param);
         return "welcome";
     }
 
@@ -69,7 +65,8 @@ public class MappingController {
             @RequestParam String startTime,
             @RequestParam String endTime,
             @RequestParam String summary,
-            @RequestParam String place
+            @RequestParam String place,
+            @RequestParam String notificationTime
     ) {
         Logger logger = Logger.getLogger(MappingController.class);
         logger.info("Start adding");
@@ -78,6 +75,7 @@ public class MappingController {
         logger.info("end time: " + endTime);
         logger.info("summary: " + summary);
         logger.info("place: " + place);
+        logger.info("place: " + notificationTime);
 
         int startYear = Integer.parseInt(startTime.substring(0, 4)) - 1900;
         int startMonth = Integer.parseInt(startTime.substring(5, 7)) - 1;
@@ -85,13 +83,16 @@ public class MappingController {
         int startHour = Integer.parseInt(startTime.substring(11, 13));
         int startMinute = Integer.parseInt(startTime.substring(14, 16));
 
+
         Date startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
+
 
         int endYear = Integer.parseInt(endTime.substring(0, 4)) - 1900;
         int endMonth = Integer.parseInt(endTime.substring(5, 7)) - 1;
         int endDay = Integer.parseInt(endTime.substring(8, 10));
         int endHour = Integer.parseInt(endTime.substring(11, 13));
         int endMinute = Integer.parseInt(endTime.substring(14, 16));
+
 
         Date endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
 
@@ -107,6 +108,7 @@ public class MappingController {
         //we don't know user ID
         meeting.setAdminId(1L);
         meeting.setState(true);
+        meeting.setNotificationTime(Integer.parseInt(notificationTime));
 
         session.save(meeting);
         session.getTransaction().commit();
