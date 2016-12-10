@@ -1,5 +1,7 @@
 package com.netcracker.entities;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -15,12 +17,13 @@ import java.util.Date;
 public class MeetingsEntity {
     private long meetingId;
     private String name;
-    private Date dateStart;
-    private Date dateEnd;
+    private DateTime dateStart;
+    private DateTime dateEnd;
     private Long adminId;
     private String place;
     private String summary;
     private Boolean state;
+    private Integer notificationTime;
     private List<ContactsEntity> contactsEntities = new ArrayList<>();
 
     @Id
@@ -47,21 +50,21 @@ public class MeetingsEntity {
 
     @Basic
     @Column(name = "DATE_START")
-    public Date getDateStart() {
+    public DateTime getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(DateTime dateStart) {
         this.dateStart = dateStart;
     }
 
     @Basic
     @Column(name = "DATE_END")
-    public Date getDateEnd() {
+    public DateTime getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(DateTime dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -105,6 +108,16 @@ public class MeetingsEntity {
         this.state = state;
     }
 
+    @Basic
+    @Column(name = "NOTIFICATION_TIME")
+    public Integer getNotificationTime() {
+        return notificationTime;
+    }
+
+    public void setNotificationTime(Integer notificationTime) {
+        this.notificationTime = notificationTime;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "contacts_to_meeting", catalog = "", joinColumns = {
             @JoinColumn(name = "meeting_id", nullable = false, updatable = false)},
@@ -134,6 +147,7 @@ public class MeetingsEntity {
         if (place != null ? !place.equals(that.place) : that.place != null) return false;
         if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (notificationTime != null ? !notificationTime.equals(that.notificationTime) : that.notificationTime != null) return false;
 
         return true;
     }
@@ -148,6 +162,7 @@ public class MeetingsEntity {
         result = 31 * result + (place != null ? place.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (notificationTime != null ? notificationTime.hashCode() : 0);
         return result;
     }
 }
