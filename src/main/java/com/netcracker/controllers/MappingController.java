@@ -39,9 +39,9 @@ public class MappingController {
         UserController userController = new UserController();
         MeetingsController meetingsController = new MeetingsController();
 //        List usersList = userController.getAll();
-//        List meetingsList = meetingsController.getAll();
+        List meetingsList = meetingsController.getAll();
 //        model.addAttribute("usersList", usersList);
-//        model.addAttribute("meetingsList", meetingsList);
+        model.addAttribute("meetingsList", meetingsList);
         Logger logger = Logger.getRootLogger();
         logger.warn("its message in file");
         model.addAttribute("user", ((KeycloakPrincipal) request.getUserPrincipal())
