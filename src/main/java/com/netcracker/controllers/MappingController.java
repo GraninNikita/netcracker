@@ -30,7 +30,7 @@ import java.util.List;
 public class MappingController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String test(@RequestParam("name") String param, Model model) {
-        model.addAttribute("nam e", param);
+        model.addAttribute("name", param);
         return "welcome";
     }
 
@@ -56,7 +56,8 @@ public class MappingController {
             @RequestParam String startTime,
             @RequestParam String endTime,
             @RequestParam String summary,
-            @RequestParam String place
+            @RequestParam String place,
+            @RequestParam String notificationTime
     ) {
         Logger logger = Logger.getLogger(MappingController.class);
         logger.info("Start adding");
@@ -65,6 +66,7 @@ public class MappingController {
         logger.info("end time: " + endTime);
         logger.info("summary: " + summary);
         logger.info("place: " + place);
+        logger.info("place: " + notificationTime);
 
         int startYear = Integer.parseInt(startTime.substring(0,4));
         int startMonth = Integer.parseInt(startTime.substring(5,7));
@@ -72,7 +74,8 @@ public class MappingController {
         int startHour = Integer.parseInt(startTime.substring(11,13));
         int startMinute = Integer.parseInt(startTime.substring(14,16));
 
-        Date startDate = new Date(startYear,startMonth,startDay,startHour,startMinute);
+        //Date startDate = new Date(startYear,startMonth,startDay,startHour,startMinute);
+        DateTime startDate = new DateTime(startYear,startMonth,startDay,startHour,startMinute);
 
         int endYear = Integer.parseInt(endTime.substring(0,4));
         int endMonth = Integer.parseInt(endTime.substring(5,7));
@@ -80,7 +83,8 @@ public class MappingController {
         int endHour = Integer.parseInt(endTime.substring(11,13));
         int endMinute = Integer.parseInt(endTime.substring(14,16));
 
-        Date endDate = new Date(endYear,endMonth,endDay,endHour,endMinute);
+        //Date endDate = new Date(endYear,endMonth,endDay,endHour,endMinute);
+        DateTime endDate = new DateTime(endYear,endMonth,endDay,endHour,endMinute);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
@@ -94,6 +98,7 @@ public class MappingController {
         //we don't know user ID
         meeting.setAdminId(1L);
         meeting.setState(true);
+        meeting.setNotificationTime(Integer.parseInt(notificationTime));
 
         session.save(meeting);
         session.getTransaction().commit();
