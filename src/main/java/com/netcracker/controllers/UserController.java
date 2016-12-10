@@ -15,7 +15,30 @@ import java.util.List;
  */
 public class UserController {
 
-    public List<UsersEntity> getAll(){
+    public List<UsersEntity> getUsersByNameAndEmail(String firstName, String lastName, String login) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "' AND " + " login = '" + login+"'");
+        List<UsersEntity> list = q.list();
+        session.close();
+        return list;
+    }
+
+    public boolean add(UsersEntity user) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        UsersEntity newUser = new UsersEntity();
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setLogin(user.getLogin());
+        newUser.setInfo(user.getInfo());
+        newUser.setParentUserId(null);
+        session.save(newUser);
+        session.getTransaction().commit();
+        return false;
+    }
+
+    public List<UsersEntity> getAll() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query q = session.createQuery("from UsersEntity ");

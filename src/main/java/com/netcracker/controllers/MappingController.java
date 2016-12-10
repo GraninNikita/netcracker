@@ -36,16 +36,29 @@ public class MappingController {
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String start(ModelMap model, HttpServletRequest request) {
+        String nameUser = ((KeycloakPrincipal) request.getUserPrincipal())
+                .getKeycloakSecurityContext().getToken().getName();
+        String loginUser = ((KeycloakPrincipal) request.getUserPrincipal())
+                .getKeycloakSecurityContext().getToken().getEmail();
         UserController userController = new UserController();
         MeetingsController meetingsController = new MeetingsController();
-//        List usersList = userController.getAll();
+        List usersList = userController.getAll();
         List meetingsList = meetingsController.getAll();
-//        model.addAttribute("usersList", usersList);
+        model.addAttribute("usersList", usersList);
         model.addAttribute("meetingsList", meetingsList);
-        Logger logger = Logger.getRootLogger();
-        logger.warn("its message in file");
-        model.addAttribute("user", ((KeycloakPrincipal) request.getUserPrincipal())
-                .getKeycloakSecurityContext().getToken().getName());
+
+        // adding user to our db
+        if (userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).size() == 0) {
+            UsersEntity usersEntity = new UsersEntity();
+            usersEntity.setFirstName(nameUser.split(" ")[0]);
+            usersEntity.setLastName(nameUser.split(" ")[1]);
+            usersEntity.setLogin(loginUser);
+            usersEntity.setInfo("");
+            usersEntity.setParentUserId(null);
+            userController.add(usersEntity);
+        }
+
+        model.addAttribute("user", nameUser);
         return "dashboard";
     }
 
@@ -66,21 +79,21 @@ public class MappingController {
         logger.info("summary: " + summary);
         logger.info("place: " + place);
 
-        int startYear = Integer.parseInt(startTime.substring(0,4));
-        int startMonth = Integer.parseInt(startTime.substring(5,7));
-        int startDay = Integer.parseInt(startTime.substring(8,10));
-        int startHour = Integer.parseInt(startTime.substring(11,13));
-        int startMinute = Integer.parseInt(startTime.substring(14,16));
+        int startYear = Integer.parseInt(startTime.substring(0, 4)) - 1900;
+        int startMonth = Integer.parseInt(startTime.substring(5, 7)) - 1;
+        int startDay = Integer.parseInt(startTime.substring(8, 10));
+        int startHour = Integer.parseInt(startTime.substring(11, 13));
+        int startMinute = Integer.parseInt(startTime.substring(14, 16));
 
-        Date startDate = new Date(startYear,startMonth,startDay,startHour,startMinute);
+        Date startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
 
-        int endYear = Integer.parseInt(endTime.substring(0,4));
-        int endMonth = Integer.parseInt(endTime.substring(5,7));
-        int endDay = Integer.parseInt(endTime.substring(8,10));
-        int endHour = Integer.parseInt(endTime.substring(11,13));
-        int endMinute = Integer.parseInt(endTime.substring(14,16));
+        int endYear = Integer.parseInt(endTime.substring(0, 4)) - 1900;
+        int endMonth = Integer.parseInt(endTime.substring(5, 7)) - 1;
+        int endDay = Integer.parseInt(endTime.substring(8, 10));
+        int endHour = Integer.parseInt(endTime.substring(11, 13));
+        int endMinute = Integer.parseInt(endTime.substring(14, 16));
 
-        Date endDate = new Date(endYear,endMonth,endDay,endHour,endMinute);
+        Date endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
