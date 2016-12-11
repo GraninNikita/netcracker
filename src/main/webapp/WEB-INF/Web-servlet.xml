@@ -16,5 +16,5 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-    <bean name="sheduler" init-method="run" class="com.netcracker.sheduler.MainSheduler" />
+    <!--<bean name="sheduler" init-method="run" class="com.netcracker.sheduler.MainSheduler" />-->
 </beans>

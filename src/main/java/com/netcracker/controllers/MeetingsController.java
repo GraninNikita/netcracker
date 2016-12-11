@@ -23,7 +23,7 @@ public class MeetingsController {
         session.beginTransaction();
         Query q = session.createQuery("from MeetingsEntity order by dateStart asc ");
         List<MeetingsEntity> list = q.list();
-//        session.close();
+        session.close();
         return list;
     }
 
@@ -33,7 +33,7 @@ public class MeetingsController {
         Query q = session.createQuery("from MeetingsEntity where meetingId = " + id);
         MeetingsEntity meeting = (MeetingsEntity) q.getSingleResult();
         List<ContactsEntity> list = meeting.getContacts();
-//        session.close();
+        session.close();
         return list;
     }
     public static void changeStateById(boolean state, long id){

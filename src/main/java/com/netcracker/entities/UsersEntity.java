@@ -14,9 +14,12 @@ public class UsersEntity {
     private String firstName;
     private String lastName;
     private String info;
+    private String login;
     private Long parentUserId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_GEN")
+    @SequenceGenerator(name = "USERS_GEN", sequenceName = "USERS_SEQ")
     @Column(name = "USER_ID")
     public long getUserId() {
         return userId;
@@ -57,6 +60,16 @@ public class UsersEntity {
     }
 
     @Basic
+    @Column(name = "LOGIN")
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Basic
     @Column(name = "PARENT_USER_ID")
     public Long getParentUserId() {
         return parentUserId;
@@ -91,4 +104,5 @@ public class UsersEntity {
         result = 31 * result + (parentUserId != null ? parentUserId.hashCode() : 0);
         return result;
     }
+
 }
