@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 
@@ -172,7 +173,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <%--<c:if test="${not empty usersList}">--%>
+                                        <%--<c:if test="${not empty contactsList}">--%>
                                         <c:forEach items="${contactsList}" var="item">
                                             <tr>
                                                 <td>${item.getContactId()}</td>
@@ -212,7 +213,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="btn-adduser">Save changes</button>
+                                <button type="button" class="btn btn-primary" id="btn-addcontact">Save changes</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -243,6 +244,32 @@
 <script src="../resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="../resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
 <script src="../resources/dist/js/sb-admin-2.js"></script>
+
+<script>
+    jQuery(document).ready(
+            function ($) {
+                $("#btn-addcontact").click(function (event) {
+                    var data = {};
+                    data["email"] = $('#email').val();
+                    data["name"] = '${name}';
+                    $.ajax({
+                        type: "POST",
+                        url: "/Web/contact/save",
+                        dataType: 'json',
+                        data: data,
+                        timeout: 600000,
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (e) {
+                            window.location.reload();
+                            data["email"] = $('#email').val('');
+                            data["name"] = '';
+                        }
+                    });
+                });
+            });
+</script>
 <script>
     $(document).ready(function () {
         $('#dataTables-contacts').DataTable({

@@ -351,35 +351,6 @@
                 });
             });
 </script>
-<%--<script>
-    jQuery(document).ready(
-            function ($) {
-                $("#btn-adduser").click(function (event) {
-                    var data = {};
-                    data["firstName"] = $('#firstName').val();
-                    data["lastName"] = $('#lastName').val();
-                    data["info"] = $('#info').val();
-                    data["userId"] = $('#userId').val();
-                    $.ajax({
-                        type: "POST",
-                        url: "/Web/save",
-                        dataType: 'json',
-                        data: data,
-                        timeout: 600000,
-                        success: function (data) {
-                            alert("Success");
-                        },
-                        error: function (e) {
-                            alert("Error");
-                            $('#userId').val('')
-                            $('#firstName').val('')
-                            $('#lastName').val('')
-                            $('#userId').val('')
-                        }
-                    });
-                });
-            });
-</script>--%>
 <script>
     $(document).ready(function () {
         $('#dataTables-meetings').DataTable({

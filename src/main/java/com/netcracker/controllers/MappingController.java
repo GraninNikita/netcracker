@@ -1,10 +1,12 @@
 package com.netcracker.controllers;
 
+import com.netcracker.entities.ContactsEntity;
 import com.netcracker.entities.MeetingsEntity;
 import com.netcracker.entities.UsersEntity;
 import com.netcracker.orm.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.keycloak.KeycloakPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,11 +60,30 @@ public class MappingController {
     @RequestMapping(value = "/profile/{name}", method = RequestMethod.GET)
     public String handleProfile(Model model, @PathVariable String name) {
         ContactsController contactsController = new ContactsController();
-        List contactsList = contactsController.getAll();
-        //List contactsList = contactsController.getContactsForUser(name); +++
+        //List contactsList = contactsController.getAll();
         //List contactsList = contactsController.getContactsForUser("Nikita " + "Granin");
+        List contactsList = contactsController.getContactsForUser(name);
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("name", name);
+        return "userprofile";
+    }
+
+    @RequestMapping(value = "/contact/save", method = RequestMethod.POST)
+    public String handleProfile(Model model, @RequestParam String email, @RequestParam String name) {
+        String firstName = name.split(" ")[0];
+        String lastName = name.split(" ")[1];
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        ContactsEntity contact = new ContactsEntity();
+        Query q = session.createQuery("select userId from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "'");
+        List<Long> ids = q.list();
+        contact.setUserId(ids.get(0));
+        contact.setState(true);
+        contact.setType("email");
+        contact.setValue(email);
+        session.save(contact);
+        session.getTransaction().commit();
+        session.close();
         return "userprofile";
     }
 
@@ -116,6 +137,7 @@ public class MappingController {
 
         session.save(meeting);
         session.getTransaction().commit();
+        session.close();
         return "dashboard";
     }
 

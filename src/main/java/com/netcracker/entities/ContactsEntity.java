@@ -13,13 +13,15 @@ import java.util.Set;
 @Table(name = "CONTACTS", schema = "NETCRACKER", catalog = "")
 public class ContactsEntity {
     private long contactId;
-    private int userId;
+    private long userId;
     private String type;
     private Boolean state;
     private String value;
 //    private List<MeetingsEntity> meetingsEntities = new ArrayList<>();
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTACT_GEN")
+    @SequenceGenerator(name = "CONTACT_GEN", sequenceName = "CONTACTS_SEQ_1")
     @Column(name = "CONTACT_ID")
     public long getContactId() {
         return contactId;
@@ -32,11 +34,11 @@ public class ContactsEntity {
 
     @Basic
     @Column(name = "USER_ID")
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
     @Basic
@@ -90,7 +92,6 @@ public class ContactsEntity {
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
-
         return true;
     }
 

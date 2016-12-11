@@ -28,9 +28,7 @@ public class ContactsController {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query q = session.createQuery("select userId from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "'");
-        List<Integer> ids = q.list();
-        /*System.out.println("!!!!!!!!!!" + ids.size());
-        System.out.println("!!!" + ids.get(0));*/
+        List<Long> ids = q.list();
         Query query = session.createQuery("from ContactsEntity where userId = " + ids.get(0));
         List<ContactsEntity> contactsList = query.list();
         session.close();
