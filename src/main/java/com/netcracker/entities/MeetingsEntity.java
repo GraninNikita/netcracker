@@ -17,8 +17,8 @@ import java.util.Date;
 public class MeetingsEntity {
     private long meetingId;
     private String name;
-    private DateTime dateStart;
-    private DateTime dateEnd;
+    private Date dateStart;
+    private Date dateEnd;
     private Long adminId;
     private String place;
     private String summary;
@@ -50,21 +50,21 @@ public class MeetingsEntity {
 
     @Basic
     @Column(name = "DATE_START")
-    public DateTime getDateStart() {
+    public Date getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(DateTime dateStart) {
+    public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
     }
 
     @Basic
     @Column(name = "DATE_END")
-    public DateTime getDateEnd() {
+    public Date getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(DateTime dateEnd) {
+    public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
 

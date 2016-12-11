@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "CONTACTS", schema = "NETCRACKER", catalog = "")
 public class ContactsEntity {
     private long contactId;
+    private int userId;
     private String type;
     private Boolean state;
     private String value;
@@ -28,6 +29,16 @@ public class ContactsEntity {
         this.contactId = contactId;
     }
 
+
+    @Basic
+    @Column(name = "USER_ID")
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
     @Basic
     @Column(name = "TYPE")
     public String getType() {

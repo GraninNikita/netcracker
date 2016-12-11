@@ -22,4 +22,18 @@ public class ContactsController {
         return list;
     }
 
+    public List<ContactsEntity> getContactsForUser(String name){
+        String firstName = name.split(" ")[0];
+        String lastName = name.split(" ")[1];
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("select userId from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "'");
+        List<Integer> ids = q.list();
+        /*System.out.println("!!!!!!!!!!" + ids.size());
+        System.out.println("!!!" + ids.get(0));*/
+        Query query = session.createQuery("from ContactsEntity where userId = " + ids.get(0));
+        List<ContactsEntity> contactsList = query.list();
+        session.close();
+        return contactsList;
+    }
 }

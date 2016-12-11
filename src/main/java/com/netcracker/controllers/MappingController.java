@@ -13,10 +13,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,10 +40,22 @@ public class MappingController {
 //        model.addAttribute("usersList", usersList);
         model.addAttribute("meetingsList", meetingsList);
         Logger logger = Logger.getRootLogger();
-        logger.warn("its message in file");
+        //logger.warn("its message in file");
         model.addAttribute("user", ((KeycloakPrincipal) request.getUserPrincipal())
                 .getKeycloakSecurityContext().getToken().getName());
         return "dashboard";
+    }
+
+
+    @RequestMapping(value = "/profile/{name}", method = RequestMethod.GET)
+    public String handleProfile(Model model, @PathVariable String name) {
+        ContactsController contactsController = new ContactsController();
+        List contactsList = contactsController.getAll();
+        //List contactsList = contactsController.getContactsForUser(name); +++
+        //List contactsList = contactsController.getContactsForUser("Nikita " + "Granin");
+        model.addAttribute("contactsList", contactsList);
+        model.addAttribute("name", name);
+        return "userprofile";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -74,8 +83,8 @@ public class MappingController {
         int startHour = Integer.parseInt(startTime.substring(11,13));
         int startMinute = Integer.parseInt(startTime.substring(14,16));
 
-        //Date startDate = new Date(startYear,startMonth,startDay,startHour,startMinute);
-        DateTime startDate = new DateTime(startYear,startMonth,startDay,startHour,startMinute);
+        Date startDate = new Date(startYear,startMonth,startDay,startHour,startMinute);
+        //DateTime startDate = new DateTime(startYear,startMonth,startDay,startHour,startMinute);
 
         int endYear = Integer.parseInt(endTime.substring(0,4));
         int endMonth = Integer.parseInt(endTime.substring(5,7));
@@ -83,8 +92,8 @@ public class MappingController {
         int endHour = Integer.parseInt(endTime.substring(11,13));
         int endMinute = Integer.parseInt(endTime.substring(14,16));
 
-        //Date endDate = new Date(endYear,endMonth,endDay,endHour,endMinute);
-        DateTime endDate = new DateTime(endYear,endMonth,endDay,endHour,endMinute);
+        Date endDate = new Date(endYear,endMonth,endDay,endHour,endMinute);
+        //DateTime endDate = new DateTime(endYear,endMonth,endDay,endHour,endMinute);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
@@ -105,33 +114,6 @@ public class MappingController {
         return "dashboard";
     }
 
-/*    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    @ResponseBody
-    public String add(
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String info,
-            @RequestParam int userId
-    ) {
-        Logger logger = Logger.getLogger(MappingController.class);
-        logger.info("Start adding");
-        logger.info("first name: " + firstName);
-        logger.info("Info: " + info);
-
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
-        session.beginTransaction();
-        UsersEntity users = new UsersEntity();
-        users.setUserId(userId);
-        users.setFirstName(firstName);
-        users.setLastName(lastName);
-        users.setInfo(info);
-        users.setParentUserId(new Long(0));
-
-        session.save(users);
-        session.getTransaction().commit();
-        return "dashboard";
-    }*/
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String handleLogout(HttpServletRequest req) throws ServletException {
