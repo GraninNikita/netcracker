@@ -106,12 +106,12 @@ public class EmailService implements NotificationService, Job {
                 Hibernate.initialize(contactsToNotificate);
 
                 for (ContactsEntity contact : contactsToNotificate) {
-//                    try {
-//                        logger.info("try to notificate in email Service");
-//                        notificate(contact, meetingToNotificate, "Test subject");
-//                    } catch (MessagingException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        logger.info("try to notificate in email Service");
+                        notificate(contact, meetingToNotificate, "Test subject");
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
                     logger.error("Message was sent to " + contact.getValue());
                 }
                 logger.error("CHANGED STATE OF MEETING");
