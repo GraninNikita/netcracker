@@ -50,8 +50,7 @@ public class UpcomingMeetingsJob implements Job {
         for (MeetingsEntity meeting : meetingsList) {
             DateTime nowTime = new DateTime(); // current time
             DateTime meetingDateStart = new DateTime(meeting.getDateStart());
-            // ЗДЕСЬ ДОБАВИТЬ ВМЕСТО ХАРДКОДА 30 ПОЛЕ ИЗ БД, КОТОРОЕ ОБОЗНАЧАЕТ ВРЕМЯ ОПОВЕЩЕНИЯ
-            if (meeting.getState() && (Minutes.minutesBetween(meetingDateStart, nowTime).getMinutes() <= 30)) {
+            if (meeting.getState() && (Minutes.minutesBetween(meetingDateStart, nowTime).getMinutes() <= meeting.getNotificationTime() + 1)) {
                 getUpcomingMeetingsList().push(meeting);
                 logger.error("Pushed meeting to stack: " + meeting.getMeetingId() + " " + meeting.getName());
                 isHaveUpcomingMeetings = true;

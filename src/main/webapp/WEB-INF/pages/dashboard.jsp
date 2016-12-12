@@ -152,48 +152,6 @@
                 </button>
 
                 <div class="panel-body">
-                    <%--Таблица с пользователями--%>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Таблица пользователей <p>${msg}</p>
-                                </div>
-                                <!-- /.panel-heading -->
-                                <div class="panel-body">
-                                    <table width="100%" class="table table-striped table-bordered table-hover"
-                                           id="dataTables-users">
-                                        <thead>
-                                        <tr>
-                                            <th>User id</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Information</th>
-                                            <th>Parent user id</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <%--<c:if test="${not empty usersList}">--%>
-                                        <c:forEach items="${usersList}" var="item">
-                                            <tr>
-                                                <td>${item.getUserId()}</td>
-                                                <td>${item.getFirstName()}</td>
-                                                <td>${item.getLastName()}</td>
-                                                <td>${item.getInfo()}</td>
-                                                <td>${item.getParentUserId()}</td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                        <%--</c:if>--%>
-                                    </table>
-                                    <!-- /.table-responsive -->
-                                </div>
-                                <!-- /.panel-body -->
-                            </div>
-                            <!-- /.panel -->
-                        </div>
-                        <!-- /.col-lg-12 -->
-                    </div>
 
                     <%--Таблица с событиями--%>
                     <div class="row">

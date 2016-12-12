@@ -45,7 +45,7 @@ public class MainSheduler {
                     .withIdentity("trigger1", "group1")
                     .startNow()
                     .withSchedule(simpleSchedule()
-                            .withIntervalInMinutes(1)
+                            .withIntervalInSeconds(30)
                             .repeatForever())
                     .build();
 

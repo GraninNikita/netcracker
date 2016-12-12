@@ -106,5 +106,5 @@ public class UsersEntity {
         result = 31 * result + (parentUserId != null ? parentUserId.hashCode() : 0);
         return result;
     }
-    
+
 }

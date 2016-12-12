@@ -106,7 +106,7 @@ public class MappingController {
         logger.info("end time: " + endTime);
         logger.info("summary: " + summary);
         logger.info("place: " + place);
-        logger.info("place: " + notificationTime);
+        logger.info("notificationTime: " + notificationTime);
 
         int startYear = Integer.parseInt(startTime.substring(0, 4)) - 1900;
         int startMonth = Integer.parseInt(startTime.substring(5, 7)) - 1;
@@ -136,6 +136,7 @@ public class MappingController {
         //we don't know user ID
         meeting.setAdminId(1L);
         meeting.setState(true);
+        meeting.setNotificationTime(Integer.parseInt(notificationTime));
 
         session.save(meeting);
         session.getTransaction().commit();
