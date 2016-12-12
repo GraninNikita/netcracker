@@ -46,4 +46,17 @@ public class MeetingsController {
         session.getTransaction().commit();
         session.close();
     }
+    public static List<MeetingsEntity> getByUserId(long id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from ContactsEntity where userId = "+id);
+        List<ContactsEntity> userContacts = q.list();
+
+        for (ContactsEntity contact: userContacts) {
+            Query q = session.createQuery("from ContactsEntity where userId = "+id);
+        }
+        List<MeetingsEntity> list = q.list();
+        session.close();
+        return list;
+    }
 }

@@ -17,6 +17,8 @@ public class UsersEntity {
     private String login;
     private Long parentUserId;
 
+    private List<ContactsEntity> contactsEntities = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_GEN")
     @SequenceGenerator(name = "USERS_GEN", sequenceName = "USERS_SEQ")
@@ -105,4 +107,13 @@ public class UsersEntity {
         return result;
     }
 
+    @OneToMany()
+    @JoinColumn(name = "USER_ID", nullable = false)
+    public List<ContactsEntity> getContactsEntities() {
+        return contactsEntities;
+    }
+
+    public void setContactsEntities(List<ContactsEntity> contactsEntities) {
+        this.contactsEntities = contactsEntities;
+    }
 }
