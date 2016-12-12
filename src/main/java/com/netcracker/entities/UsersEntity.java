@@ -106,14 +106,5 @@ public class UsersEntity {
         result = 31 * result + (parentUserId != null ? parentUserId.hashCode() : 0);
         return result;
     }
-
-    @OneToMany()
-    @JoinColumn(name = "USER_ID", nullable = false)
-    public List<ContactsEntity> getContactsEntities() {
-        return contactsEntities;
-    }
-
-    public void setContactsEntities(List<ContactsEntity> contactsEntities) {
-        this.contactsEntities = contactsEntities;
-    }
+    
 }

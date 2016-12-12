@@ -37,9 +37,10 @@ public class MappingController {
                 .getKeycloakSecurityContext().getToken().getEmail();
         UserController userController = new UserController();
         MeetingsController meetingsController = new MeetingsController();
-        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).get(1).getUserId();
+//        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).get(1).getUserId();
         List usersList = userController.getAll();
-        List meetingsList = meetingsController.getByUserId(userId);
+//        List meetingsList = meetingsController.getByUserId(userId);
+        List meetingsList = MeetingsController.getAll();
         model.addAttribute("usersList", usersList);
         model.addAttribute("meetingsList", meetingsList);
 
