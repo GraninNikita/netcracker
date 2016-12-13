@@ -17,7 +17,7 @@ public class ContactsEntity {
     private String type;
     private Boolean state;
     private String value;
-//    private List<MeetingsEntity> meetingsEntities = new ArrayList<>();
+    private List<MeetingsEntity> meetingsEntities = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONTACT_GEN")
@@ -72,13 +72,18 @@ public class ContactsEntity {
     }
 
 //    @ManyToMany(fetch=FetchType.LAZY, mappedBy = "contactsEntities")
-//    public List<MeetingsEntity> getMeetings() {
-//        return this.meetingsEntities;
-//    }
-//
-//    public void setMeetings(List<MeetingsEntity> meetingsEntities) {
-//        this.meetingsEntities = meetingsEntities;
-//    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "contacts_to_meeting", catalog = "", joinColumns = {
+            @JoinColumn(name = "contact_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "meeting_id",
+                    nullable = false, updatable = false)})
+    public List<MeetingsEntity> getMeetings() {
+        return this.meetingsEntities;
+    }
+
+    public void setMeetings(List<MeetingsEntity> meetingsEntities) {
+        this.meetingsEntities = meetingsEntities;
+    }
 
 
     @Override

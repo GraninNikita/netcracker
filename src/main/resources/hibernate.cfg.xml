@@ -4,8 +4,8 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:oracle:thin:@//127.0.0.1:15210/XE</property>
-        <!--<property name="connection.url">jdbc:oracle:thin:@//45.55.212.30:1521/XE</property>-->
+        <!--<property name="connection.url">jdbc:oracle:thin:@//127.0.0.1:15210/XE</property>-->
+        <property name="connection.url">jdbc:oracle:thin:@//45.55.212.30:1521/XE</property>
         <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
 
         <!-- Enable Hibernate's automatic session context management -->
