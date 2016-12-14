@@ -1,7 +1,9 @@
 package com.netcracker.controllers;
 
 import com.netcracker.entities.ContactsEntity;
+import com.netcracker.entities.UsersEntity;
 import com.netcracker.orm.HibernateUtil;
+import org.apache.catalina.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -33,5 +35,17 @@ public class ContactsController {
         List<ContactsEntity> contactsList = query.list();
         session.close();
         return contactsList;
+    }
+
+    public static UsersEntity getUserByUserId(long userId){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from UsersEntity where userId = " + userId);
+        List<UsersEntity> users = q.list();
+        session.close();
+        if (users == null) {
+            return null;
+        }
+        return users.get(0);
     }
 }

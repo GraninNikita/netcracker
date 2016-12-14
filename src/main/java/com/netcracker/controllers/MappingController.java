@@ -12,11 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Nick on 02.11.2016.
@@ -57,6 +57,22 @@ public class MappingController {
 
         model.addAttribute("user", nameUser);
         return "dashboard";
+    }
+
+    @RequestMapping(value = "/event/{eventName}_{eventId}", method = RequestMethod.GET)
+    public String handleEvent(Model model, @PathVariable String eventName, @PathVariable long eventId) {
+        List<ContactsEntity> contactsList = MeetingsController.getContactsByMeetingId(eventId);
+        Map<String, String> usersAndContacts = new HashMap<String,String>();
+        for (ContactsEntity contact : contactsList){
+            UsersEntity user = ContactsController.getUserByUserId(contact.getUserId());
+            usersAndContacts.put(contact.getValue(), user.getFirstName()+user.getLastName());
+        }
+        UserController userController = new UserController();
+        List<UsersEntity> users = userController.getAll();
+        model.addAttribute("users", users);
+        model.addAttribute("usersAndContacts", usersAndContacts);
+        model.addAttribute("eventName", eventName);
+        return "event";
     }
 
     @RequestMapping(value = "/profile/{name}", method = RequestMethod.GET)
