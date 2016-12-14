@@ -49,7 +49,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/Web/start">Notification System</a>
+            <a class="navbar-brand" href="/Web/start">Система оповещения</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -83,12 +83,12 @@
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="/Web/profile/${user}"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li><a href="/Web/profile/${user}"><i class="fa fa-user fa-fw"></i> Личный кабинет</a>
                     </li>
-                    <!-- <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li> -->
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
+                    </li>
                     <li class="divider"></li>
-                    <li><a href="/Web/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="/Web/logout"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -127,10 +127,6 @@
                     <li>
                         <a href="#"><i class="fa fa-table fa-fw"></i> Календарь</a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-edit fa-fw"></i> Пункт меню</a>
-                    </li>
-
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -172,8 +168,8 @@
                                            id="dataTables-meetings">
                                         <thead>
                                         <tr>
-                                            <th>User</th>
-                                            <th>Contact</th>
+                                            <th>Пользователь</th>
+                                            <th>Контакт</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -215,8 +211,8 @@
                                 </select>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="btn-adduser">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="button" class="btn btn-primary" id="btn-adduser">Сохранить</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -243,8 +239,8 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="btn-addcontact">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="button" class="btn btn-primary" id="btn-addcontact">Сохранить</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->

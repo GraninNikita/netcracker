@@ -47,7 +47,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Система оповещения</a>
+            <a class="navbar-brand" href="/Web/start">Система оповещения</a>
         </div>
         <!-- /.navbar-header -->
 
