@@ -71,7 +71,13 @@ public class EmailService implements NotificationService, Job {
 
 
         message.setSubject(subject);
-        message.setText("Сообщение: " + content.getSummary());
+
+        DateTime dateStart = new DateTime(content.getDateStart());
+        DateTime dateEnd = new DateTime(content.getDateEnd());
+
+        message.setText("Здравствуйте, напоминаем, что событие \""+content.getName()+"\""+ " состоится сегодня в "+
+                dateStart.toString("HH:mm")+" и закончится в "+dateEnd.toString("HH:mm") + " в месте под названием \""
+                +content.getPlace() + "\". Дополнительная информация: " + content.getSummary()+ ".");
         message.setHeader("X-Mailer", "Netcracker notification");
         message.setSentDate(new Date()); // ЗДЕСЬ НУЖНО УКАЗАТЬ ВРЕМЯ КОГДА ПРИСЫЛАТЬ СООБЩЕНИЕ
 
@@ -98,16 +104,13 @@ public class EmailService implements NotificationService, Job {
             MeetingsEntity firstMeeting = UpcomingMeetingsJob.getUpcomingMeetingsList().get(0);
             DateTime nowTime = new DateTime(); // current time
             DateTime meetingDateStart = new DateTime(firstMeeting.getDateStart());
-            if (firstMeeting.getState() && (Seconds.secondsBetween(nowTime, meetingDateStart).getSeconds() <= 30)) {
-                logger.error("Разница: " + Seconds.secondsBetween(nowTime, meetingDateStart).getSeconds());
-                logger.error("Разница:boolean " + (Seconds.secondsBetween(nowTime, meetingDateStart).getSeconds() <= 30));
+            if (firstMeeting.getState() && (Seconds.secondsBetween(nowTime.plusHours(3), meetingDateStart).getSeconds() <= 30)) {
                 MeetingsEntity meetingToNotificate = UpcomingMeetingsJob.getUpcomingMeetingsList().pop();
                 List<ContactsEntity> contactsToNotificate = meetingToNotificate.getContacts();
                 Hibernate.initialize(contactsToNotificate);
 
                 for (ContactsEntity contact : contactsToNotificate) {
                     try {
-                        logger.info("try to notificate in email Service");
                         notificate(contact, meetingToNotificate, "Test subject");
                     } catch (MessagingException e) {
                         e.printStackTrace();

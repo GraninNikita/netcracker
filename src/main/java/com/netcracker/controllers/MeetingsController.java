@@ -3,11 +3,14 @@ package com.netcracker.controllers;
 import com.netcracker.entities.ContactsEntity;
 import com.netcracker.entities.MeetingsEntity;
 import com.netcracker.orm.HibernateUtil;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javax.persistence.EntityManager;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Nick on 16.11.2016.
@@ -46,17 +49,24 @@ public class MeetingsController {
         session.getTransaction().commit();
         session.close();
     }
-//    public static List<MeetingsEntity> getByUserId(long id) {
-//        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//        session.beginTransaction();
-//        Query q = session.createQuery("from ContactsEntity where userId = "+id);
-//        List<ContactsEntity> userContacts = q.list();
-//
-//        for (ContactsEntity contact: userContacts) {
-//            Query q = session.createQuery("from ContactsEntity where userId = "+id);
-//        }
-//        List<MeetingsEntity> list = q.list();
-//        session.close();
-//        return list;
-//    }
+    public static Set<MeetingsEntity> getByUserId(long id) {
+        Logger logger = Logger.getLogger(MeetingsController.class);
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from ContactsEntity where userId = "+id);
+        List<ContactsEntity> userContacts = q.list();
+
+        Set<MeetingsEntity> result = new HashSet<>();
+        for (ContactsEntity contact: userContacts) {
+            List<MeetingsEntity> meetings = contact.getMeetings();
+            for (MeetingsEntity m: meetings) {
+                result.add(m);
+                logger.error("Название события: "+m.getName());
+            }
+
+        }
+
+        session.close();
+        return result;
+    }
 }

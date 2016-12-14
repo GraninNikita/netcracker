@@ -7,6 +7,7 @@ import com.netcracker.orm.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.joda.time.DateTime;
 import org.keycloak.KeycloakPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,13 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 
 /**
  * Created by Nick on 02.11.2016.
@@ -36,16 +43,17 @@ public class MappingController {
         String loginUser = ((KeycloakPrincipal) request.getUserPrincipal())
                 .getKeycloakSecurityContext().getToken().getEmail();
         UserController userController = new UserController();
-        MeetingsController meetingsController = new MeetingsController();
-//        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).get(1).getUserId();
+        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
         List usersList = userController.getAll();
-//        List meetingsList = meetingsController.getByUserId(userId);
-        List meetingsList = MeetingsController.getAll();
+        Set meetingsList = MeetingsController.getByUserId(userId);
         model.addAttribute("usersList", usersList);
         model.addAttribute("meetingsList", meetingsList);
 
+        DateTime date = new DateTime();
+        date.plusHours(3);
+
         // adding user to our db
-        if (userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).size() == 0) {
+        if (userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser) == null) {
             UsersEntity usersEntity = new UsersEntity();
             usersEntity.setFirstName(nameUser.split(" ")[0]);
             usersEntity.setLastName(nameUser.split(" ")[1]);
@@ -56,6 +64,7 @@ public class MappingController {
         }
 
         model.addAttribute("user", nameUser);
+        model.addAttribute("date", date.plusHours(3));
         return "dashboard";
     }
 
