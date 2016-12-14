@@ -283,9 +283,23 @@
     jQuery(document).ready(
             function ($) {
                 $("#btn-adduser").click(function (event) {
+                    alert($(".js-example-basic-multiple").select2('val'));
                     var data = {};
-                    data["email"] = $('#email').val();
-                    data["name"] = '${name}';
+                    data["users"] = $(".js-example-basic-multiple").select2('val');
+                    $.ajax({
+                        type: "POST",
+                        url: "/Web/us_event/save",
+                        dataType: 'json',
+                        data: data,
+                        timeout: 600000,
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (e) {
+                            window.location.reload();
+                            data["users"] = '';
+                        }
+                    });
                 });
             });
 </script>

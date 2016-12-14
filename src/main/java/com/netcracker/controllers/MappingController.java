@@ -45,8 +45,10 @@ public class MappingController {
         UserController userController = new UserController();
         long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
         List usersList = userController.getAll();
-        Set meetingsList = MeetingsController.getByUserId(userId);
+        //Set meetingsList = MeetingsController.getByUserId(userId);
+        List meetingsList = MeetingsController.getAll();
         model.addAttribute("usersList", usersList);
+        //model.addAttribute("meetingsList", meetingsList);
         model.addAttribute("meetingsList", meetingsList);
 
         // adding user to our db
@@ -89,6 +91,28 @@ public class MappingController {
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("name", name);
         return "userprofile";
+    }
+
+    @RequestMapping(value = "/us_event/save", method = RequestMethod.POST)
+    public String handleEvent(Model model, @RequestParam String users) {
+        String[] usersName = users.split(",");
+        Logger logger = Logger.getLogger(MappingController.class);
+        for (int i = 0; i < usersName.length; i++){
+            logger.error(i + " : " + usersName[i]);
+        }
+        /*Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        ContactsEntity contact = new ContactsEntity();
+        Query q = session.createQuery("select userId from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "'");
+        List<Long> ids = q.list();
+        contact.setUserId(ids.get(0));
+        contact.setState(true);
+        contact.setType("email");
+        contact.setValue(email);
+        session.save(contact);
+        session.getTransaction().commit();
+        session.close();*/
+        return "event";
     }
 
     @RequestMapping(value = "/contact/save", method = RequestMethod.POST)
