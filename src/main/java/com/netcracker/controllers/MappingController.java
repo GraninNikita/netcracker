@@ -49,9 +49,6 @@ public class MappingController {
         model.addAttribute("usersList", usersList);
         model.addAttribute("meetingsList", meetingsList);
 
-        DateTime date = new DateTime();
-        date.plusHours(3);
-
         // adding user to our db
         if (userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser) == null) {
             UsersEntity usersEntity = new UsersEntity();
@@ -64,7 +61,6 @@ public class MappingController {
         }
 
         model.addAttribute("user", nameUser);
-        model.addAttribute("date", date.plusHours(3));
         return "dashboard";
     }
 
