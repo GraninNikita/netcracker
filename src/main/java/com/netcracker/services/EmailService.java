@@ -70,7 +70,7 @@ public class EmailService implements NotificationService, Job {
                 InternetAddress.parse(contact.getValue(), false));
 
 
-        message.setSubject(subject);
+        message.setSubject(content.getName());
 
         DateTime dateStart = new DateTime(content.getDateStart());
         DateTime dateEnd = new DateTime(content.getDateEnd());
