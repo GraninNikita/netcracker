@@ -283,6 +283,7 @@
                     data["summary"] = $('#summary').val();
                     data["place"] = $('#place').val();
                     data["notificationTime"] = $('#notificationTime').val();
+                    data["user"] = '${user}'
                     $.ajax({
                         type: "POST",
                         url: "/Web/save",

@@ -18,6 +18,7 @@ import java.util.Set;
 public class MeetingsController {
 
     EntityManager em;
+
     /*
     * Getting list of meetings order by date start asc
     * */
@@ -39,7 +40,8 @@ public class MeetingsController {
         session.close();
         return list;
     }
-    public static void changeStateById(boolean state, long id){
+
+    public static void changeStateById(boolean state, long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query q = session.createQuery("from MeetingsEntity where meetingId = " + id);
@@ -49,24 +51,35 @@ public class MeetingsController {
         session.getTransaction().commit();
         session.close();
     }
+
+
     public static Set<MeetingsEntity> getByUserId(long id) {
-        Logger logger = Logger.getLogger(MeetingsController.class);
+//        Logger logger = Logger.getLogger(MeetingsController.class);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query q = session.createQuery("from ContactsEntity where userId = "+id);
+        Query q = session.createQuery("from ContactsEntity where userId = " + id);
         List<ContactsEntity> userContacts = q.list();
 
         Set<MeetingsEntity> result = new HashSet<>();
-        for (ContactsEntity contact: userContacts) {
+        for (ContactsEntity contact : userContacts) {
             List<MeetingsEntity> meetings = contact.getMeetings();
-            for (MeetingsEntity m: meetings) {
+            for (MeetingsEntity m : meetings) {
                 result.add(m);
-                logger.error("Название события: "+m.getName());
+//                logger.error("Название события: "+m.getName());
             }
 
         }
 
         session.close();
         return result;
+    }
+
+    public static MeetingsEntity getMeetingById(long id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from MeetingsEntity where meetingId = " + id);
+        MeetingsEntity meeting = (MeetingsEntity) q.getSingleResult();
+        session.close();
+        return meeting;
     }
 }

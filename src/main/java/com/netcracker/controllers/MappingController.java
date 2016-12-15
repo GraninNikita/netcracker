@@ -45,8 +45,8 @@ public class MappingController {
         UserController userController = new UserController();
         long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
         List usersList = userController.getAll();
-        //Set meetingsList = MeetingsController.getByUserId(userId);
-        List meetingsList = MeetingsController.getAll();
+        Set meetingsList = MeetingsController.getByUserId(userId);
+        //List meetingsList = MeetingsController.getAll();
         model.addAttribute("usersList", usersList);
         //model.addAttribute("meetingsList", meetingsList);
         model.addAttribute("meetingsList", meetingsList);
@@ -69,16 +69,20 @@ public class MappingController {
     @RequestMapping(value = "/event/{eventName}_{eventId}", method = RequestMethod.GET)
     public String handleEvent(Model model, @PathVariable String eventName, @PathVariable long eventId) {
         List<ContactsEntity> contactsList = MeetingsController.getContactsByMeetingId(eventId);
-        Map<String, String> usersAndContacts = new HashMap<String,String>();
-        for (ContactsEntity contact : contactsList){
+        Logger logger = Logger.getLogger(MappingController.class);
+        logger.error("contacts size : " + contactsList.size());
+        logger.error("event if  : " + eventId);
+        Map<String, String> usersAndContacts = new HashMap<String, String>();
+        for (ContactsEntity contact : contactsList) {
             UsersEntity user = ContactsController.getUserByUserId(contact.getUserId());
-            usersAndContacts.put(contact.getValue(), user.getFirstName()+user.getLastName());
+            usersAndContacts.put(contact.getValue(), user.getFirstName() + user.getLastName());
         }
         UserController userController = new UserController();
         List<UsersEntity> users = userController.getAll();
         model.addAttribute("users", users);
         model.addAttribute("usersAndContacts", usersAndContacts);
         model.addAttribute("eventName", eventName);
+        model.addAttribute("eventId", eventId);
         return "event";
     }
 
@@ -93,25 +97,21 @@ public class MappingController {
         return "userprofile";
     }
 
-    @RequestMapping(value = "/us_event/save", method = RequestMethod.POST)
-    public String handleEvent(Model model, @RequestParam String users) {
-        String[] usersName = users.split(",");
+    @RequestMapping(value = "/event/save", method = RequestMethod.POST)
+    public String addingUserToEvent(Model model, @RequestParam String user, @RequestParam String eventId) {
         Logger logger = Logger.getLogger(MappingController.class);
-        for (int i = 0; i < usersName.length; i++){
-            logger.error(i + " : " + usersName[i]);
-        }
-        /*Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        logger.error("User name : " + user);
+        logger.error("Event id : " + eventId);
+        MeetingsEntity meeting = MeetingsController.getMeetingById(Long.parseLong(eventId));
+        ContactsController contactsController = new ContactsController();
+        List<ContactsEntity> contactsList = contactsController.getContactsForUser(user);
+        meeting.addContacts(contactsList);
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        ContactsEntity contact = new ContactsEntity();
-        Query q = session.createQuery("select userId from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "'");
-        List<Long> ids = q.list();
-        contact.setUserId(ids.get(0));
-        contact.setState(true);
-        contact.setType("email");
-        contact.setValue(email);
-        session.save(contact);
+        session.update(meeting);
         session.getTransaction().commit();
-        session.close();*/
+        session.close();
         return "event";
     }
 
@@ -142,7 +142,8 @@ public class MappingController {
             @RequestParam String endTime,
             @RequestParam String summary,
             @RequestParam String place,
-            @RequestParam String notificationTime
+            @RequestParam String notificationTime,
+            @RequestParam String user
     ) {
         Logger logger = Logger.getLogger(MappingController.class);
         logger.info("Start adding");
@@ -170,8 +171,8 @@ public class MappingController {
         Date endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
         session.beginTransaction();
+
         MeetingsEntity meeting = new MeetingsEntity();
         meeting.setName(nameEvent);
         meeting.setDateStart(startDate);
@@ -186,9 +187,23 @@ public class MappingController {
         session.save(meeting);
         session.getTransaction().commit();
         session.close();
+        addCOntactToNewMetting(meeting, user);
         return "dashboard";
     }
 
+    public void addCOntactToNewMetting(MeetingsEntity meeting, String userName) {
+        ContactsController contactsController = new ContactsController();
+        List<ContactsEntity> contactsList = contactsController.getContactsForUser(userName);
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        meeting.setContacts(contactsList);
+
+        session.save(meeting);
+        session.getTransaction().commit();
+        session.close();
+    }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String handleLogout(HttpServletRequest req) throws ServletException {

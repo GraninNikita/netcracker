@@ -131,6 +131,7 @@ public class MeetingsEntity {
     public void setContacts(List<ContactsEntity> contactsEntities) {
         this.contactsEntities = contactsEntities;
     }
+    public void addContacts(List<ContactsEntity> contactsEntities) { this.contactsEntities.addAll(contactsEntities);}
 
     @Override
     public boolean equals(Object o) {

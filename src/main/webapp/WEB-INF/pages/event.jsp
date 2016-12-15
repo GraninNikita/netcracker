@@ -283,12 +283,12 @@
     jQuery(document).ready(
             function ($) {
                 $("#btn-adduser").click(function (event) {
-                    alert($(".js-example-basic-multiple").select2('val'));
                     var data = {};
-                    data["users"] = $(".js-example-basic-multiple").select2('val');
+                    data["user"] = $('.js-example-basic-multiple :selected').text();
+                    data["eventId"] = '${eventId}';
                     $.ajax({
                         type: "POST",
-                        url: "/Web/us_event/save",
+                        url: "/Web/event/save",
                         dataType: 'json',
                         data: data,
                         timeout: 600000,
@@ -297,7 +297,8 @@
                         },
                         error: function (e) {
                             window.location.reload();
-                            data["users"] = '';
+                            data["user"] = '';
+                            data["eventId"] = '';
                         }
                     });
                 });
