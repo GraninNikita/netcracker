@@ -52,6 +52,17 @@ public class MeetingsController {
         session.close();
     }
 
+    public static Set<MeetingsEntity> getByUserName(String name) {
+        String firstName = name.split(" ")[0];
+        String lastName = name.split(" ")[1];
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("select userId from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "'");
+        List<Long> ids = q.list();
+        session.close();
+        return getByUserId(ids.get(0));
+    }
+
 
     public static Set<MeetingsEntity> getByUserId(long id) {
 //        Logger logger = Logger.getLogger(MeetingsController.class);

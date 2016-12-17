@@ -72,7 +72,7 @@ public class ContactsEntity {
     }
 
 //    @ManyToMany(fetch=FetchType.LAZY, mappedBy = "contactsEntities")
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "contacts_to_meeting", catalog = "", joinColumns = {
             @JoinColumn(name = "contact_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "meeting_id",

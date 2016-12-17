@@ -118,7 +118,7 @@ public class MeetingsEntity {
         this.notificationTime = notificationTime;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "contacts_to_meeting", catalog = "", joinColumns = {
             @JoinColumn(name = "meeting_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "contact_id",

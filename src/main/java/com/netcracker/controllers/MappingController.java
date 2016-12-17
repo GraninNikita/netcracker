@@ -71,7 +71,7 @@ public class MappingController {
         List<ContactsEntity> contactsList = MeetingsController.getContactsByMeetingId(eventId);
         Logger logger = Logger.getLogger(MappingController.class);
         logger.error("contacts size : " + contactsList.size());
-        logger.error("event if  : " + eventId);
+        logger.error("event id  : " + eventId);
         Map<String, String> usersAndContacts = new HashMap<String, String>();
         for (ContactsEntity contact : contactsList) {
             UsersEntity user = ContactsController.getUserByUserId(contact.getUserId());
@@ -102,16 +102,31 @@ public class MappingController {
         Logger logger = Logger.getLogger(MappingController.class);
         logger.error("User name : " + user);
         logger.error("Event id : " + eventId);
+      /*  MeetingsEntity meeting = MeetingsController.getMeetingById(Long.parseLong(eventId));
+        logger.error(meeting.getMeetingId());
+        ContactsController contactsController = new ContactsController();
+        List<ContactsEntity> contactsList = contactsController.getContactsForUser(user);
+        for (ContactsEntity contact : contactsList) {
+            List<MeetingsEntity> meetings = contact.getMeetings();
+            meetings.add(meeting);
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            contact.setMeetings(meetings);
+            session.merge(contact);
+            session.getTransaction().commit();
+            session.close();
+        }*/
+        //addCOntactToNewMetting(meeting1, user);
         MeetingsEntity meeting = MeetingsController.getMeetingById(Long.parseLong(eventId));
         ContactsController contactsController = new ContactsController();
         List<ContactsEntity> contactsList = contactsController.getContactsForUser(user);
-        meeting.addContacts(contactsList);
 
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.update(meeting);
-        session.getTransaction().commit();
-        session.close();
+        Session session1 = HibernateUtil.getSessionFactory().getCurrentSession();
+        session1.beginTransaction();
+        meeting.addContacts(contactsList);
+        session1.merge(meeting);
+        session1.getTransaction().commit();
+        session1.close();
         return "event";
     }
 
@@ -119,6 +134,8 @@ public class MappingController {
     public String handleProfile(Model model, @RequestParam String email, @RequestParam String name) {
         String firstName = name.split(" ")[0];
         String lastName = name.split(" ")[1];
+        Set<MeetingsEntity> meetingsByUser = MeetingsController.getByUserName(name);
+        List<MeetingsEntity> listMeetingByUser = new ArrayList<>(meetingsByUser);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         ContactsEntity contact = new ContactsEntity();
@@ -129,6 +146,8 @@ public class MappingController {
         contact.setType("email");
         contact.setValue(email);
         session.save(contact);
+        contact.setMeetings(listMeetingByUser);
+        session.update(contact);
         session.getTransaction().commit();
         session.close();
         return "userprofile";
@@ -199,8 +218,8 @@ public class MappingController {
         session.beginTransaction();
 
         meeting.setContacts(contactsList);
-
-        session.save(meeting);
+        session.clear();
+        session.update(meeting);
         session.getTransaction().commit();
         session.close();
     }
