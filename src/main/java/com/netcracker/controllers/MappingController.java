@@ -173,17 +173,29 @@ public class MappingController {
         logger.info("place: " + place);
         logger.info("notificationTime: " + notificationTime);
 
-        int startYear = Integer.parseInt(startTime.substring(0, 4)) - 1900;
+     /*   int startYear = Integer.parseInt(startTime.substring(0, 4)) - 1900;
         int startMonth = Integer.parseInt(startTime.substring(5, 7)) - 1;
         int startDay = Integer.parseInt(startTime.substring(8, 10));
+        int startHour = Integer.parseInt(startTime.substring(11, 13));
+        int startMinute = Integer.parseInt(startTime.substring(14, 16));*/
+
+        int startDay = Integer.parseInt(startTime.substring(0, 2));
+        int startMonth = Integer.parseInt(startTime.substring(3, 5)) - 1;
+        int startYear = Integer.parseInt(startTime.substring(6, 10)) - 1900;
         int startHour = Integer.parseInt(startTime.substring(11, 13));
         int startMinute = Integer.parseInt(startTime.substring(14, 16));
 
         Date startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
 
-        int endYear = Integer.parseInt(endTime.substring(0, 4)) - 1900;
+        /*int endYear = Integer.parseInt(endTime.substring(0, 4)) - 1900;
         int endMonth = Integer.parseInt(endTime.substring(5, 7)) - 1;
         int endDay = Integer.parseInt(endTime.substring(8, 10));
+        int endHour = Integer.parseInt(endTime.substring(11, 13));
+        int endMinute = Integer.parseInt(endTime.substring(14, 16));*/
+
+        int endDay = Integer.parseInt(endTime.substring(0, 2));
+        int endMonth = Integer.parseInt(endTime.substring(3, 5)) - 1;
+        int endYear = Integer.parseInt(endTime.substring(6, 10)) - 1900;
         int endHour = Integer.parseInt(endTime.substring(11, 13));
         int endMinute = Integer.parseInt(endTime.substring(14, 16));
 

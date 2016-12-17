@@ -13,8 +13,19 @@
 
     <title>Личный кабинет пользователя ${user} </title>
 
-    <!-- Bootstrap Core CSS -->
+
+    <!-- jQuery -->
+    <script src="resources/vendor/jquery/jquery.js"></script>
+    <script src="resources/vendor/datetimepicker/moment-with-locales.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="resources/vendor/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+
+        <!-- Bootstrap Core CSS -->
     <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/vendor/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="resources/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
@@ -210,28 +221,61 @@
                                 <h4 class="modal-title" id="myModalLabel">Добавить событие</h4>
                             </div>
                             <div class="modal-body">
-                                <div style="margin-bottom: 10px;">
-                                    <p>Название:</p>
+                                <div class="form-group">
+                                    <label>Название:</label>
                                     <input type="text" name="event" id="nameEvent" style="width: 320px;">
                                 </div>
                                 <form name="start" style="margin-bottom: 10px;">
                                     <p>Время начала:</p>
-                                    <input type="datetime-local" name="startTime" id="startTime" style="width: 320px;">
+                                    <!-- <input type="datetime-local" name="startTime" id="startTime" style="width: 320px;"> -->
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class='col-sm-6' style="padding-left: 0px !important;">
+                                                <div class="form-group" style="width: 320px;">
+                                                    <div class='input-group date' id='datetimepickerStart'>
+                                                        <input id="startTime" type='text' class="form-control" />
+                                                        <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </form>
+
+
                                 <form name="end" style="margin-bottom: 10px;">
                                     <p>Время окончания:</p>
-                                    <input type="datetime-local" name="endTime" id="endTime" style="width: 320px;">
+                                    <!-- <input type="datetime-local" name="endTime" id="endTime" style="width: 320px;"> -->
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class='col-sm-6' style="padding-left: 0px !important;">
+                                                <div class="form-group" style="width: 320px;">
+                                                    <div class='input-group date' id='datetimepickerEnd'>
+                                                        <input id="endTime" type='text' class="form-control"/>
+                                                        <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
                                 </form>
-                                <div style="margin-bottom: 10px;">
-                                    <p>Описание: </p>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <label>Описание: </label>
                                     <input type="text" name="summary" id="summary" style="width: 320px;">
                                 </div>
-                                <div style="margin-bottom: 10px;">
-                                    <p>Место: </p>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <label>Место: </label>
                                     <input type="text" name="place" id="place" style="width: 320px;">
                                 </div>
-                                <div>
-                                    <p>Оповестить за (мин): </p>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <label>Оповестить за (мин): </label>
                                     <input type="text" value="30" name="notificationTime" id="notificationTime" style="width: 320px;">
                                 </div>
 
@@ -256,12 +300,6 @@
 </div>
 <!-- /#wrapper -->
 
-<!-- jQuery -->
-<script src="resources/vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-
 <!-- Metis Menu Plugin JavaScript -->
 <script src="resources/vendor/metisMenu/metisMenu.min.js"></script>
 <!-- DataTables JavaScript -->
@@ -272,6 +310,20 @@
 <!-- Custom Theme JavaScript -->
 <script src="resources/dist/js/sb-admin-2.js"></script>
 <%--Ajax--%>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepickerStart').datetimepicker({
+            language: 'ru',
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepickerEnd').datetimepicker({
+            language: 'ru',
+        });
+    });
+</script>
 <script>
     jQuery(document).ready(
             function ($) {
