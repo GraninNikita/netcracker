@@ -43,15 +43,11 @@ public class MappingController {
         String loginUser = ((KeycloakPrincipal) request.getUserPrincipal())
                 .getKeycloakSecurityContext().getToken().getEmail();
         UserController userController = new UserController();
-        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
-        List usersList = userController.getAll();
-        Set meetingsList = MeetingsController.getByUserId(userId);
-        //List meetingsList = MeetingsController.getAll();
-        model.addAttribute("usersList", usersList);
-        //model.addAttribute("meetingsList", meetingsList);
-        model.addAttribute("meetingsList", meetingsList);
 
-        // adding user to our db
+
+        List usersList = userController.getAll();
+        Set meetingsList;
+
         if (userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser) == null) {
             UsersEntity usersEntity = new UsersEntity();
             usersEntity.setFirstName(nameUser.split(" ")[0]);
@@ -60,9 +56,16 @@ public class MappingController {
             usersEntity.setInfo("");
             usersEntity.setParentUserId(null);
             userController.add(usersEntity);
+            meetingsList = null;
+        }else{
+            long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
+            meetingsList = MeetingsController.getByUserId(userId);
+            meetingsList.addAll(MeetingsController.getByAdminId(userId));
         }
 
         model.addAttribute("user", nameUser);
+        model.addAttribute("usersList", usersList);
+        model.addAttribute("meetingsList", meetingsList);
         return "dashboard";
     }
 
@@ -89,8 +92,6 @@ public class MappingController {
     @RequestMapping(value = "/profile/{name}", method = RequestMethod.GET)
     public String handleProfile(Model model, @PathVariable String name) {
         ContactsController contactsController = new ContactsController();
-        //List contactsList = contactsController.getAll();
-        //List contactsList = contactsController.getContactsForUser("Nikita " + "Granin");
         List contactsList = contactsController.getContactsForUser(name);
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("name", name);
@@ -102,21 +103,6 @@ public class MappingController {
         Logger logger = Logger.getLogger(MappingController.class);
         logger.error("User name : " + user);
         logger.error("Event id : " + eventId);
-      /*  MeetingsEntity meeting = MeetingsController.getMeetingById(Long.parseLong(eventId));
-        logger.error(meeting.getMeetingId());
-        ContactsController contactsController = new ContactsController();
-        List<ContactsEntity> contactsList = contactsController.getContactsForUser(user);
-        for (ContactsEntity contact : contactsList) {
-            List<MeetingsEntity> meetings = contact.getMeetings();
-            meetings.add(meeting);
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            session.beginTransaction();
-            contact.setMeetings(meetings);
-            session.merge(contact);
-            session.getTransaction().commit();
-            session.close();
-        }*/
-        //addCOntactToNewMetting(meeting1, user);
         MeetingsEntity meeting = MeetingsController.getMeetingById(Long.parseLong(eventId));
         ContactsController contactsController = new ContactsController();
         List<ContactsEntity> contactsList = contactsController.getContactsForUser(user);
@@ -162,16 +148,16 @@ public class MappingController {
             @RequestParam String summary,
             @RequestParam String place,
             @RequestParam String notificationTime,
-            @RequestParam String user
+            @RequestParam String user,
+            HttpServletRequest request
     ) {
-        Logger logger = Logger.getLogger(MappingController.class);
-        logger.info("Start adding");
-        logger.info("event name: " + nameEvent);
-        logger.info("start time: " + startTime);
-        logger.info("end time: " + endTime);
-        logger.info("summary: " + summary);
-        logger.info("place: " + place);
-        logger.info("notificationTime: " + notificationTime);
+        String nameUser = ((KeycloakPrincipal) request.getUserPrincipal())
+                .getKeycloakSecurityContext().getToken().getName();
+        String loginUser = ((KeycloakPrincipal) request.getUserPrincipal())
+                .getKeycloakSecurityContext().getToken().getEmail();
+        UserController userController = new UserController();
+        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
+
 
         int startYear = Integer.parseInt(startTime.substring(0, 4)) - 1900;
         int startMonth = Integer.parseInt(startTime.substring(5, 7)) - 1;
@@ -199,7 +185,7 @@ public class MappingController {
         meeting.setSummary(summary);
         meeting.setPlace(place);
         //we don't know user ID
-        meeting.setAdminId(1L);
+        meeting.setAdminId(userId);
         meeting.setState(true);
         meeting.setNotificationTime(Integer.parseInt(notificationTime));
 

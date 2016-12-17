@@ -16,10 +16,15 @@ import java.util.List;
 public class UserController {
 
     public UsersEntity getUsersByNameAndEmail(String firstName, String lastName, String login) {
+        UsersEntity user;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query q = session.createQuery("from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "' AND " + " login = '" + login+"'");
-        UsersEntity user = (UsersEntity) q.list().get(0);
+        Query q = session.createQuery("from UsersEntity where firstName = '" + firstName + "' AND " + "lastName = '" + lastName + "' AND " + " login = '" + login + "'");
+        if (q.list().size() > 0){
+            user = (UsersEntity) q.list().get(0);
+        }
+        else user = null;
+
         session.close();
         return user;
     }

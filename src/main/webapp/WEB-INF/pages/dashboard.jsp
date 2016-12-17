@@ -47,7 +47,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/Web/start">Система оповещения</a>
+            <a class="navbar-brand" href="/Web/start">Система оповещения ${id}</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -138,7 +138,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Личный кабинет</h1>
+                    <h1 class="page-header">Личный кабинет </h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

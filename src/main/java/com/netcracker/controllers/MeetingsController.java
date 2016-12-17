@@ -76,7 +76,6 @@ public class MeetingsController {
             List<MeetingsEntity> meetings = contact.getMeetings();
             for (MeetingsEntity m : meetings) {
                 result.add(m);
-//                logger.error("Название события: "+m.getName());
             }
 
         }
@@ -93,4 +92,14 @@ public class MeetingsController {
         session.close();
         return meeting;
     }
-}
+
+    public static List<MeetingsEntity> getByAdminId(long id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from MeetingsEntity where adminId = " + id);
+        List<MeetingsEntity> result =  q.list();
+        session.close();
+        return result;
+    }
+
+    }
