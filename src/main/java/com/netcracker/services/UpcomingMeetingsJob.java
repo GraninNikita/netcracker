@@ -49,8 +49,6 @@ public class UpcomingMeetingsJob implements Job {
 
         for (MeetingsEntity meeting : meetingsList) {
             DateTime nowTime = new DateTime(); // current time
-
-            logger.error("NowTime: "+nowTime );
             DateTime meetingDateStart = new DateTime(meeting.getDateStart());
             if (meeting.getState() && (Minutes.minutesBetween(meetingDateStart, nowTime.plusHours(3)).getMinutes() <= (meeting.getNotificationTime() + 2))) {
                 getUpcomingMeetingsList().push(meeting);
@@ -62,8 +60,6 @@ public class UpcomingMeetingsJob implements Job {
     }
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
-//        Logger logger = Logger.getRootLogger();
-//        logger.warn("Execution of upcoming");
         if (isTimeToNotificate(30)) {
             logger.info("System has upcoming meetings: " + upcomingMeetingsList.size());
         }
