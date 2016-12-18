@@ -236,10 +236,59 @@ public class MappingController {
         session.close();
     }
 
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String handleUpdate (@RequestParam String editNameEvent,
+                                @RequestParam String editStartTime,
+                                @RequestParam String editEndTime,
+                                @RequestParam String editPlace,
+                                @RequestParam String editSummary,
+                                @RequestParam String editNotificationTime,
+                                @RequestParam String user,
+                                @RequestParam String oldName,
+                                @RequestParam String oldPlace,
+                                @RequestParam String oldSummary) {
+
+        int startDay = Integer.parseInt(editStartTime.substring(0, 2));
+        int startMonth = Integer.parseInt(editStartTime.substring(3, 5)) - 1;
+        int startYear = Integer.parseInt(editStartTime.substring(6, 10)) - 1900;
+        int startHour = Integer.parseInt(editStartTime.substring(11, 13));
+        int startMinute = Integer.parseInt(editStartTime.substring(14, 16));
+
+        Date startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
+
+        int endDay = Integer.parseInt(editEndTime.substring(0, 2));
+        int endMonth = Integer.parseInt(editEndTime.substring(3, 5)) - 1;
+        int endYear = Integer.parseInt(editEndTime.substring(6, 10)) - 1900;
+        int endHour = Integer.parseInt(editEndTime.substring(11, 13));
+        int endMinute = Integer.parseInt(editEndTime.substring(14, 16));
+
+        Date endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
+
+        MeetingsEntity meeting = MeetingsController.getMeetingByNameAndParam(oldName,oldPlace,oldSummary);
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        meeting.setName(editNameEvent);
+        meeting.setDateStart(startDate);
+        meeting.setDateEnd(endDate);
+        meeting.setSummary(editSummary);
+        meeting.setPlace(editPlace);
+        //we don't know user ID
+        meeting.setAdminId(1L);
+        meeting.setState(true);
+        meeting.setNotificationTime(Integer.parseInt(editNotificationTime));
+        session.update(meeting);
+        session.getTransaction().commit();
+        session.close();
+        return "dashboard";
+    }
+
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String handleLogout(HttpServletRequest req) throws ServletException {
         req.logout();
         return "welcome";
     }
+
 
 }

@@ -85,6 +85,16 @@ public class MeetingsController {
         return result;
     }
 
+    public static MeetingsEntity getMeetingByNameAndParam(String name, String place, String summary) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from MeetingsEntity where name = '"
+                + name + "' AND place = '" + place + "' AND summary = '" + summary +"'");
+        MeetingsEntity meeting = (MeetingsEntity) q.getSingleResult();
+        session.close();
+        return meeting;
+    }
+
     public static MeetingsEntity getMeetingById(long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();

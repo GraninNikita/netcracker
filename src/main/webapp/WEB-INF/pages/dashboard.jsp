@@ -92,7 +92,7 @@
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="/Web/profile/${user}"><i class="fa fa-user fa-fw"></i>Личный кабинет</a>
+                    <li><a href="/Web/profile/${user}"><i class="fa fa-user fa-fw"></i>Профиль пользователя</a>
                     </li>
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Настройки</a>
                     </li>
@@ -282,7 +282,88 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                <button type="button" class="btn btn-primary" id="btn-adduser">Сохранить</button>
+                                <button type="button" class="btn btn-primary" id="btn-addevent">Сохранить</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="edit-event-modal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="width: 350px;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="editModalLabel">Добавить событие</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Название:</label>
+                                    <input type="text" name="event" id="editNameEvent" style="width: 320px;">
+                                </div>
+                                <form name="start" style="margin-bottom: 10px;">
+                                    <p>Время начала:</p>
+                                    <!-- <input type="datetime-local" name="startTime" id="startTime" style="width: 320px;"> -->
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class='col-sm-6' style="padding-left: 0px !important;">
+                                                <div class="form-group" style="width: 320px;">
+                                                    <div class='input-group date' id='editDatetimepickerStart'>
+                                                        <input id="editStartTime" type='text' class="form-control" />
+                                                        <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+
+
+                                <form name="end" style="margin-bottom: 10px;">
+                                    <p>Время окончания:</p>
+                                    <!-- <input type="datetime-local" name="endTime" id="endTime" style="width: 320px;"> -->
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class='col-sm-6' style="padding-left: 0px !important;">
+                                                <div class="form-group" style="width: 320px;">
+                                                    <div class="input-group date" id="editDatetimepickerEnd">
+                                                        <input id="editEndTime" type='text' class="form-control"/>
+                                                        <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <label>Описание: </label>
+                                    <input type="text" name="summary" id="editSummary" style="width: 320px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <label>Место: </label>
+                                    <input type="text" name="place" id="editPlace" style="width: 320px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <label>Оповестить за (мин): </label>
+                                    <input type="text" value="30" name="notificationTime" id="editNotificationTime" style="width: 320px;">
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="button" class="btn btn-primary" id="btn-editEvent">Сохранить</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -300,6 +381,8 @@
 </div>
 <!-- /#wrapper -->
 
+<script src="resources/vendor/jquery/editEvent.js"></script>
+
 <!-- Metis Menu Plugin JavaScript -->
 <script src="resources/vendor/metisMenu/metisMenu.min.js"></script>
 <!-- DataTables JavaScript -->
@@ -313,21 +396,35 @@
 <script type="text/javascript">
     $(function () {
         $('#datetimepickerStart').datetimepicker({
-            language: 'ru',
+            language: 'ru'
         });
     });
 </script>
 <script type="text/javascript">
     $(function () {
         $('#datetimepickerEnd').datetimepicker({
-            language: 'ru',
+            language: 'ru'
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#editDatetimepickerStart').datetimepicker({
+            language: 'ru'
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#editDatetimepickerEnd').datetimepicker({
+            language: 'ru'
         });
     });
 </script>
 <script>
     jQuery(document).ready(
             function ($) {
-                $("#btn-adduser").click(function (event) {
+                $("#btn-addevent").click(function (event) {
                     var data = {};
                     data["nameEvent"] = $('#nameEvent').val();
                     data["startTime"] = $('#startTime').val();
