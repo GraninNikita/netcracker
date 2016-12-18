@@ -159,12 +159,6 @@ public class MappingController {
         long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
 
 
-     /*   int startYear = Integer.parseInt(startTime.substring(0, 4)) - 1900;
-        int startMonth = Integer.parseInt(startTime.substring(5, 7)) - 1;
-        int startDay = Integer.parseInt(startTime.substring(8, 10));
-        int startHour = Integer.parseInt(startTime.substring(11, 13));
-        int startMinute = Integer.parseInt(startTime.substring(14, 16));*/
-
         int startDay = Integer.parseInt(startTime.substring(0, 2));
         int startMonth = Integer.parseInt(startTime.substring(3, 5)) - 1;
         int startYear = Integer.parseInt(startTime.substring(6, 10)) - 1900;
@@ -173,11 +167,6 @@ public class MappingController {
 
         Date startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
 
-        /*int endYear = Integer.parseInt(endTime.substring(0, 4)) - 1900;
-        int endMonth = Integer.parseInt(endTime.substring(5, 7)) - 1;
-        int endDay = Integer.parseInt(endTime.substring(8, 10));
-        int endHour = Integer.parseInt(endTime.substring(11, 13));
-        int endMinute = Integer.parseInt(endTime.substring(14, 16));*/
 
         int endDay = Integer.parseInt(endTime.substring(0, 2));
         int endMonth = Integer.parseInt(endTime.substring(3, 5)) - 1;
@@ -196,7 +185,6 @@ public class MappingController {
         meeting.setDateEnd(endDate);
         meeting.setSummary(summary);
         meeting.setPlace(place);
-        //we don't know user ID
         meeting.setAdminId(userId);
         meeting.setState(true);
         meeting.setNotificationTime(Integer.parseInt(notificationTime));
@@ -259,8 +247,6 @@ public class MappingController {
         meeting.setDateEnd(endDate);
         meeting.setSummary(editSummary);
         meeting.setPlace(editPlace);
-        //we don't know user ID
-        meeting.setAdminId(1L);
         meeting.setState(true);
         meeting.setNotificationTime(Integer.parseInt(editNotificationTime));
         session.update(meeting);
