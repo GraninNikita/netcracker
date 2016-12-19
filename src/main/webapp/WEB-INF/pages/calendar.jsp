@@ -55,7 +55,6 @@
         <script>
 
             jQuery(function() { // document ready
-                var events = '${meetings}';
 
                 jQuery('#calendar').fullCalendar({
                     now: Date.now(),
@@ -63,7 +62,7 @@
                     aspectRatio: 1.8,
                     scrollTime: '00:00', // undo default 6am scrollTime
                     header: {
-                        left: 'today prev,next',
+                        left: 'Сегодня prev,next',
                         center: 'title',
                         right: 'timelineDay,timelineThreeDays,agendaWeek,month,listWeek'
                     },
@@ -185,10 +184,10 @@
                                 class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/Web/start"> Активные</a>
+                                <a href="start"> Активные</a>
                             </li>
                             <li>
-                                <a href="#"> Выполненные </a>
+                                <a href="inactive"> Выполненные </a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -240,56 +239,7 @@
 <script type="text/javascript">
     $(".js-example-basic-multiple").select2();
 </script>
-<script>
-    jQuery(document).ready(
-            function ($) {
-                $("#btn-adduser").click(function (event) {
-                    var data = {};
-                    data["user"] = $('.js-example-basic-multiple :selected').text();
-                    data["eventId"] = '${eventId}';
-                    $.ajax({
-                        type: "POST",
-                        url: "/Web/event/save",
-                        dataType: 'json',
-                        data: data,
-                        timeout: 600000,
-                        success: function (data) {
-                            window.location.reload();
-                        },
-                        error: function (e) {
-                            window.location.reload();
-                            data["user"] = '';
-                            data["eventId"] = '';
-                        }
-                    });
-                });
-            });
-</script>
-<script>
-    jQuery(document).ready(
-            function ($) {
-                $("#btn-addcontact").click(function (event) {
-                    var data = {};
-                    data["email"] = $('#email').val();
-                    data["name"] = '${name}';
-                    $.ajax({
-                        type: "POST",
-                        url: "/Web/contact/save",
-                        dataType: 'json',
-                        data: data,
-                        timeout: 600000,
-                        success: function (data) {
-                            window.location.reload();
-                        },
-                        error: function (e) {
-                            window.location.reload();
-                            data["email"] = $('#email').val('');
-                            data["name"] = '';
-                        }
-                    });
-                });
-            });
-</script>
+
 <script>
     $(document).ready(function () {
         $('#dataTables-meetings').DataTable({

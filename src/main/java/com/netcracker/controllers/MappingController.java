@@ -63,8 +63,41 @@ public class MappingController {
             meetingsList = null;
         } else {
             long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
-            meetingsList = MeetingsController.getByUserId(userId);
-            meetingsList.addAll(MeetingsController.getByAdminId(userId));
+            meetingsList = MeetingsController.getByUserIdAndState(userId, true);
+            meetingsList.addAll(MeetingsController.getByAdminIdAndState(userId, true));
+        }
+
+        model.addAttribute("user", nameUser);
+        model.addAttribute("usersList", usersList);
+        model.addAttribute("meetingsList", meetingsList);
+        return "dashboard";
+    }
+    @RequestMapping(value = "/inactive", method = RequestMethod.GET)
+    public String noActive(ModelMap model, HttpServletRequest request) {
+
+        String nameUser = ((KeycloakPrincipal) request.getUserPrincipal())
+                .getKeycloakSecurityContext().getToken().getName();
+        String loginUser = ((KeycloakPrincipal) request.getUserPrincipal())
+                .getKeycloakSecurityContext().getToken().getEmail();
+        UserController userController = new UserController();
+
+
+        List usersList = userController.getAll();
+        Set meetingsList;
+
+        if (userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser) == null) {
+            UsersEntity usersEntity = new UsersEntity();
+            usersEntity.setFirstName(nameUser.split(" ")[0]);
+            usersEntity.setLastName(nameUser.split(" ")[1]);
+            usersEntity.setLogin(loginUser);
+            usersEntity.setInfo("");
+            usersEntity.setParentUserId(null);
+            userController.add(usersEntity);
+            meetingsList = null;
+        } else {
+            long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
+            meetingsList = MeetingsController.getByUserIdAndState(userId, false);
+            meetingsList.addAll(MeetingsController.getByAdminIdAndState(userId, false));
         }
 
         model.addAttribute("user", nameUser);
@@ -291,6 +324,34 @@ public class MappingController {
         session.close();
         return "event";
     }
+
+//    @RequestMapping(value = "/test/{eventId}", method = RequestMethod.GET)
+//    public String calendar(ModelMap model, HttpServletRequest request) throws ServletException {
+//
+//        UserController userController = new UserController();
+//        Set<MeetingsEntity> meetings;
+//
+////        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
+//        long userId = userController.getUsersByNameAndEmail("Nikita", "Granin", "main.granin@gmail.com").getUserId();
+//        meetings = MeetingsController.getByUserId(userId);
+//        meetings.addAll(MeetingsController.getByUserIdAndState(userId));
+//
+//        JSONArray jsonArray = new JSONArray();
+//
+//        for(MeetingsEntity m : meetings) {
+//            JSONObject formDetailsJson = new JSONObject();
+//            formDetailsJson.put("id", m.getMeetingId());
+//            formDetailsJson.put("title", m.getName());
+//            formDetailsJson.put("start", m.getDateStart());
+//            formDetailsJson.put("end", m.getDateEnd());
+//            formDetailsJson.put("resourceId", m.getPlace());
+//            jsonArray.put(formDetailsJson);
+//            Logger.getLogger(MappingController.class).error(formDetailsJson.toString());
+//        }
+//
+//        model.addAttribute("meetings", jsonArray);
+//        return "calendar";
+//    }
 
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

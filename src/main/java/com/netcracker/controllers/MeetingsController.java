@@ -65,7 +65,6 @@ public class MeetingsController {
 
 
     public static Set<MeetingsEntity> getByUserId(long id) {
-//        Logger logger = Logger.getLogger(MeetingsController.class);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query q = session.createQuery("from ContactsEntity where userId = " + id);
@@ -103,13 +102,33 @@ public class MeetingsController {
         return meeting;
     }
 
-    public static List<MeetingsEntity> getByAdminId(long id) {
+    public static List<MeetingsEntity> getByAdminIdAndState(long id, boolean state) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query q = session.createQuery("from MeetingsEntity where adminId = " + id);
+        Query q = session.createQuery("from MeetingsEntity where adminId = " + id + " and state ="+ state);
         List<MeetingsEntity> result =  q.list();
         session.close();
         return result;
     }
 
+    public static Set getByUserIdAndState(long userId, boolean state) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        Query q = session.createQuery("from ContactsEntity where userId = " + userId);
+        List<ContactsEntity> userContacts = q.list();
+
+        Set<MeetingsEntity> result = new HashSet<>();
+        for (ContactsEntity contact : userContacts) {
+            List<MeetingsEntity> meetings = contact.getMeetings();
+            for (MeetingsEntity m : meetings) {
+                if (m.getState() == state)
+                result.add(m);
+            }
+
+        }
+
+        session.close();
+        return result;
     }
+}

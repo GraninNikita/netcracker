@@ -120,7 +120,7 @@
                                 <a href="/Web/start"> Активные</a>
                             </li>
                             <li>
-                                <a href="#"> Выполненные </a>
+                                <a href="/Web/inactive"> Выполненные </a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
