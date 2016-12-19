@@ -310,10 +310,10 @@
                 $("#btn-addcontact").click(function (event) {
                     var data = {};
                     data["email"] = $('#email').val();
-                    data["name"] = '${name}';
+                    data["eventId"] = '${eventId}';
                     $.ajax({
                         type: "POST",
-                        url: "/Web/contact/save",
+                        url: "/Web/event/contact_save",
                         dataType: 'json',
                         data: data,
                         timeout: 600000,

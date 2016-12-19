@@ -77,8 +77,13 @@ public class MappingController {
         logger.error("event id  : " + eventId);
         Map<String, String> usersAndContacts = new HashMap<String, String>();
         for (ContactsEntity contact : contactsList) {
-            UsersEntity user = ContactsController.getUserByUserId(contact.getUserId());
-            usersAndContacts.put(contact.getValue(), user.getFirstName() + user.getLastName());
+            if (contact.getUserId() == 99999){
+                usersAndContacts.put(contact.getValue(), "Неизвестно");
+            }else{
+                UsersEntity user = ContactsController.getUserByUserId(contact.getUserId());
+                usersAndContacts.put(contact.getValue(), user.getFirstName() + user.getLastName());
+            }
+
         }
         UserController userController = new UserController();
         List<UsersEntity> users = userController.getAll();
@@ -255,12 +260,39 @@ public class MappingController {
         return "dashboard";
     }
 
+    @RequestMapping(value = "/event/contact_save", method = RequestMethod.POST)
+    public String addContactToMeeting(Model model, @RequestParam String email, @RequestParam String eventId) {
+
+        MeetingsEntity meetingsEntity;
+        meetingsEntity = MeetingsController.getMeetingById(Long.parseLong(eventId));
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        ContactsEntity contact = new ContactsEntity();
+
+        List<MeetingsEntity> meetingsEntityList = new ArrayList<>();
+        meetingsEntityList.add(meetingsEntity);
+
+        contact.setUserId(99999);
+        contact.setState(true);
+        contact.setType("email");
+        contact.setValue(email);
+        session.save(contact);
+        contact.setMeetings(meetingsEntityList);
+        session.update(contact);
+
+
+        session.getTransaction().commit();
+        session.close();
+        return "event";
+    }
+
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String handleLogout(HttpServletRequest req) throws ServletException {
         req.logout();
         return "welcome";
     }
-
 
 }
