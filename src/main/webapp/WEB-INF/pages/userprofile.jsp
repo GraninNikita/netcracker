@@ -202,7 +202,12 @@
                             </div>
                             <div class="modal-body">
                                 <div style="margin-bottom: 10px;">
-                                    <p>Email:</p>
+                                    <p>Type</p>
+                                    <select name="typeContact">
+                                        <option value="email">email</option>
+                                        <option value="sms">sms</option>
+                                    </select>
+                                    <p>Значение:</p>
                                     <input type="text" name="email" id="email" style="width: 320px;">
                                 </div>
 
@@ -248,6 +253,8 @@
                     var data = {};
                     data["email"] = $('#email').val();
                     data["name"] = '${name}';
+                    data["type"] = $('select[name=typeContact]').val();
+
                     $.ajax({
                         type: "POST",
                         url: "/Web/contact/save",

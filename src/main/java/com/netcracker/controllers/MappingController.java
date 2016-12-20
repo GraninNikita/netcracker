@@ -1,6 +1,5 @@
 package com.netcracker.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.entities.ContactsEntity;
 import com.netcracker.entities.MeetingsEntity;
 import com.netcracker.entities.UsersEntity;
@@ -8,7 +7,6 @@ import com.netcracker.orm.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.keycloak.KeycloakPrincipal;
@@ -16,17 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -159,7 +153,7 @@ public class MappingController {
     }
 
     @RequestMapping(value = "/contact/save", method = RequestMethod.POST)
-    public String handleProfile(Model model, @RequestParam String email, @RequestParam String name) {
+    public String handleProfile(Model model, @RequestParam String email, @RequestParam String name, @RequestParam String type) {
         String firstName = name.split(" ")[0];
         String lastName = name.split(" ")[1];
         Set<MeetingsEntity> meetingsByUser = MeetingsController.getByUserName(name);
@@ -171,7 +165,7 @@ public class MappingController {
         List<Long> ids = q.list();
         contact.setUserId(ids.get(0));
         contact.setState(true);
-        contact.setType("email");
+        contact.setType(type);
         contact.setValue(email);
         session.save(contact);
         contact.setMeetings(listMeetingByUser);
@@ -325,33 +319,36 @@ public class MappingController {
         return "event";
     }
 
-//    @RequestMapping(value = "/test/{eventId}", method = RequestMethod.GET)
-//    public String calendar(ModelMap model, HttpServletRequest request) throws ServletException {
-//
-//        UserController userController = new UserController();
-//        Set<MeetingsEntity> meetings;
-//
-////        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
-//        long userId = userController.getUsersByNameAndEmail("Nikita", "Granin", "main.granin@gmail.com").getUserId();
+    @RequestMapping(value = "/test{jsonArray}", method = RequestMethod.GET)
+    public String calendar(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        long userId = userController.getUsersByNameAndEmail(nameUser.split(" ")[0], nameUser.split(" ")[1], loginUser).getUserId();
+        UserController userController = new UserController();
+        Set<MeetingsEntity> meetings;
+
+        long userId = userController.getUsersByNameAndEmail("Nikita", "Granin", "main.granin@gmail.com").getUserId();
 //        meetings = MeetingsController.getByUserId(userId);
-//        meetings.addAll(MeetingsController.getByUserIdAndState(userId));
-//
-//        JSONArray jsonArray = new JSONArray();
-//
-//        for(MeetingsEntity m : meetings) {
-//            JSONObject formDetailsJson = new JSONObject();
-//            formDetailsJson.put("id", m.getMeetingId());
-//            formDetailsJson.put("title", m.getName());
-//            formDetailsJson.put("start", m.getDateStart());
-//            formDetailsJson.put("end", m.getDateEnd());
-//            formDetailsJson.put("resourceId", m.getPlace());
-//            jsonArray.put(formDetailsJson);
-//            Logger.getLogger(MappingController.class).error(formDetailsJson.toString());
-//        }
-//
-//        model.addAttribute("meetings", jsonArray);
-//        return "calendar";
-//    }
+        meetings = MeetingsController.getByUserIdAndState(userId, true);
+
+        JSONArray jsonArray = new JSONArray();
+
+        for(MeetingsEntity m : meetings) {
+            JSONObject formDetailsJson = new JSONObject();
+            formDetailsJson.put("id", m.getMeetingId());
+            formDetailsJson.put("resourceId", m.getPlace());
+            formDetailsJson.put("start", m.getDateStart());
+            formDetailsJson.put("end", m.getDateEnd());
+            formDetailsJson.put("title", m.getName());
+            jsonArray.put(formDetailsJson);
+            Logger.getLogger(MappingController.class).error(formDetailsJson.toString());
+        }
+        response.setContentType("application/json");
+//        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.write(jsonArray.toString());
+
+        model.addAttribute("meetings", jsonArray);
+        return "calendar";
+    }
 
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

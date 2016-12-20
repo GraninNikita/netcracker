@@ -58,6 +58,7 @@ public class MainSheduler {
                     .build();
 
 
+
             // Tell quartz to schedule the job using our trigger
             sched.scheduleJob(job1, trigger1);
             sched.scheduleJob(job2, trigger2);

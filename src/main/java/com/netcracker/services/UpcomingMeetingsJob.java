@@ -50,9 +50,11 @@ public class UpcomingMeetingsJob implements Job {
         for (MeetingsEntity meeting : meetingsList) {
             DateTime nowTime = new DateTime(); // current time
             DateTime meetingDateStart = new DateTime(meeting.getDateStart());
-            if (meeting.getState() && (Minutes.minutesBetween(meetingDateStart, nowTime.plusHours(3)).getMinutes() <= (meeting.getNotificationTime() + 2))) {
+            if (meeting.getState() == true && (Minutes.minutesBetween(nowTime.plusHours(3), meetingDateStart).getMinutes()
+                    <= (meeting.getNotificationTime() + 2)) && (Minutes.minutesBetween(nowTime.plusHours(3), meetingDateStart).getMinutes()) >= 0) {
                 getUpcomingMeetingsList().push(meeting);
                 logger.error("Pushed meeting to stack: " + meeting.getMeetingId() + " " + meeting.getName());
+                logger.error("Разница " + Minutes.minutesBetween(nowTime.plusHours(3), meetingDateStart).getMinutes());
                 isHaveUpcomingMeetings = true;
             }
         }

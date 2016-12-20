@@ -11,6 +11,8 @@ import com.netcracker.controllers.MeetingsController;
 import com.netcracker.entities.ContactsEntity;
 import com.netcracker.entities.MeetingsEntity;
 import com.sun.mail.smtp.*;
+import com.twilio.Twilio;
+import com.twilio.rest.lookups.v1.PhoneNumber;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.joda.time.DateTime;
@@ -26,6 +28,9 @@ import org.quartz.JobExecutionException;
  */
 
 public class EmailService implements NotificationService, Job {
+
+    public static final String ACCOUNT_SID = "ACf455c7efa87be87e68bb05e15bc5fb52";
+    public static final String AUTH_TOKEN = "6ea79dcf08d7c0957a823f21dab74332";
 
     private final String recipient = "notification.netcracker@gmail.com"; // кому отправить
     private final String recipientPassword = "mSMGYfFY"; // кому отправить
@@ -75,15 +80,32 @@ public class EmailService implements NotificationService, Job {
         DateTime dateStart = new DateTime(content.getDateStart());
         DateTime dateEnd = new DateTime(content.getDateEnd());
 
-        message.setText("Здравствуйте, напоминаем, что событие \""+content.getName()+"\""+ " состоится сегодня в "+
-                dateStart.toString("HH:mm")+" и закончится в "+dateEnd.toString("HH:mm") + " в месте под названием \""
-                +content.getPlace() + "\". Дополнительная информация: " + content.getSummary()+ ".");
+        message.setText("Здравствуйте, напоминаем, что событие \"" + content.getName() + "\"" + " состоится сегодня в " +
+                dateStart.toString("HH:mm") + " и закончится в " + dateEnd.toString("HH:mm") + " в месте под названием \""
+                + content.getPlace() + "\". Дополнительная информация: " + content.getSummary() + ".");
         message.setHeader("X-Mailer", "Netcracker notification");
         message.setSentDate(new Date()); // ЗДЕСЬ НУЖНО УКАЗАТЬ ВРЕМЯ КОГДА ПРИСЫЛАТЬ СООБЩЕНИЕ
 
         transport.sendMessage(message, message.getAllRecipients());
         System.out.println("Response: " + transport.getLastServerResponse());
     }
+
+    public void notificateSms(ContactsEntity contact, MeetingsEntity content, String subject) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+        DateTime dateStart = new DateTime(content.getDateStart());
+        DateTime dateEnd = new DateTime(content.getDateEnd());
+        com.twilio.rest.api.v2010.account.Message message;
+        message = com.twilio.rest.api.v2010.account.Message.creator(new com.twilio.type.PhoneNumber(contact.getValue()),
+                new com.twilio.type.PhoneNumber("+13475072188"),
+                "Здравствуйте, напоминаем, что событие \"" + content.getName() + "\"" + " состоится сегодня в " +
+                        dateStart.toString("HH:mm") + " и закончится в " + dateEnd.toString("HH:mm") + " в месте под названием \""
+                        + content.getPlace() + "\". Дополнительная информация: " + content.getSummary() + ".")
+                .create();
+
+        Logger.getLogger(EmailService.class).error("Notificate by sms");
+    }
+
 
     public void close() throws MessagingException {
         transport.close();
@@ -92,7 +114,7 @@ public class EmailService implements NotificationService, Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-
+        Logger.getRootLogger().error("Execute email ");
         try {
             init();
         } catch (MessagingException e) {
@@ -111,7 +133,15 @@ public class EmailService implements NotificationService, Job {
 
                 for (ContactsEntity contact : contactsToNotificate) {
                     try {
-                        notificate(contact, meetingToNotificate, "Test subject");
+                        logger.error("value " + contact.getValue());
+                        logger.error("Meeting: " + meetingToNotificate.getName());
+                        if (contact.getType().contains("email")) {
+                            notificate(contact, meetingToNotificate, "Test subject");
+                        }
+                        else if (contact.getType().contains("sms")){
+                            notificateSms(contact, meetingToNotificate, "Test subject");
+                        }
+
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }
