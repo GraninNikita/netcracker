@@ -134,31 +134,31 @@ public class EmailService implements NotificationService, Job {
 
                 for (ContactsEntity contact : contactsToNotificate) {
                     try {
-                        logger.error("value " + contact.getValue());
-                        logger.error("Meeting: " + meetingToNotificate.getName());
                         if (contact.getType().contains("email")) {
+                            logger.error("value " + contact.getValue());
+                            logger.error("Meeting: " + meetingToNotificate.getName());
                             notificate(contact, meetingToNotificate, "Test subject");
+                            logger.error("Message was sent to " + contact.getValue());
                         }
-
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }
-                    logger.error("Message was sent to " + contact.getValue());
                 }
 
                 for (ContactsEntity contact : contactsToNotificate) {
                     try {
-                        logger.error("value " + contact.getValue());
-                        logger.error("Meeting: " + meetingToNotificate.getName());
                         if (contact.getType().contains("sms")){
+                            logger.error("value " + contact.getValue());
+                            logger.error("Meeting: " + meetingToNotificate.getName());
                             notificateSms(contact, meetingToNotificate, "Test subject");
+                            logger.error("Message was sent to " + contact.getValue());
                         }
 
                     } catch (TwilioException e) {
                         e.printStackTrace();
                     }
-                    logger.error("Message was sent to " + contact.getValue());
                 }
+
                 logger.error("CHANGED STATE OF MEETING");
                 MeetingsController.changeStateById(false, firstMeeting.getMeetingId());
             }
