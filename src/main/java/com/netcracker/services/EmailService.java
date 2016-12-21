@@ -12,6 +12,7 @@ import com.netcracker.entities.ContactsEntity;
 import com.netcracker.entities.MeetingsEntity;
 import com.sun.mail.smtp.*;
 import com.twilio.Twilio;
+import com.twilio.exception.TwilioException;
 import com.twilio.rest.lookups.v1.PhoneNumber;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
@@ -138,11 +139,22 @@ public class EmailService implements NotificationService, Job {
                         if (contact.getType().contains("email")) {
                             notificate(contact, meetingToNotificate, "Test subject");
                         }
-                        else if (contact.getType().contains("sms")){
+
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                    logger.error("Message was sent to " + contact.getValue());
+                }
+
+                for (ContactsEntity contact : contactsToNotificate) {
+                    try {
+                        logger.error("value " + contact.getValue());
+                        logger.error("Meeting: " + meetingToNotificate.getName());
+                        if (contact.getType().contains("sms")){
                             notificateSms(contact, meetingToNotificate, "Test subject");
                         }
 
-                    } catch (MessagingException e) {
+                    } catch (TwilioException e) {
                         e.printStackTrace();
                     }
                     logger.error("Message was sent to " + contact.getValue());
